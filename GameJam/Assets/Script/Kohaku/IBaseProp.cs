@@ -9,50 +9,53 @@ public interface IBaseProp
     void OnAtkChanged(int value);
 }
 
-public class BaseProp
+namespace BaseSystem.Property
 {
-    protected List<IBaseProp> targets = new List<IBaseProp>();
-
-    int _hp;
-    int _atk;
-
-    protected int hp
+    public class BaseProp
     {
-        get => _hp;
-        set
+        protected List<object> targets = new List<object>();
+
+        int _hp;
+        int _atk;
+
+        protected int hp
         {
-            _hp = value;
-            callHpCallback(value);
+            get => _hp;
+            set
+            {
+                _hp = value;
+                callHpCallback(value);
+            }
         }
-    }
-    protected int atk
-    {
-        get => _atk;
-        set
+        protected int atk
         {
-            _atk = value;
-            callAtkCallback(value);
+            get => _atk;
+            set
+            {
+                _atk = value;
+                callAtkCallback(value);
+            }
         }
+
+        /// <summary>
+        /// コールバック対象を自分にすることでインターフェースに定義されている関数を呼んでくれます！
+        /// </summary>
+        /// <param name="target"></param>
+        public void SetCallback(object target)
+        {
+            targets.Add(target);
+        }
+
+        void callHpCallback(int value)
+        {
+            foreach (var target in targets) (target as IBaseProp).OnHpChanged(value);
+        }
+
+        void callAtkCallback(int value)
+        {
+            foreach (var target in targets) (target as IBaseProp).OnAtkChanged(value);
+        }
+
+
     }
-
-    /// <summary>
-    /// コールバック対象を自分にすることでインターフェースに定義されている関数を呼んでくれます！
-    /// </summary>
-    /// <param name="target"></param>
-    public void SetCallback(IBaseProp target)
-    {
-        targets.Add(target);
-    }
-
-    void callHpCallback(int value)
-    {
-        foreach (var target in targets) target.OnHpChanged(value);
-    }
-
-    void callAtkCallback(int value)
-    {
-        foreach (var target in targets) target.OnAtkChanged(value);
-    }
-
-
 }
