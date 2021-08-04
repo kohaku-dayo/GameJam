@@ -36,7 +36,9 @@ public class GenerateCharacter : MonoBehaviour
         {
             if(hit.collider.gameObject.tag != "Player")
             {
-                Instantiate(m_chara, hit.point, Quaternion.identity);
+                var chara = Instantiate(m_chara, hit.point, Quaternion.identity);
+
+                //chara.GetComponent<>
             }
         }
         m_isbuttonClick = true;
