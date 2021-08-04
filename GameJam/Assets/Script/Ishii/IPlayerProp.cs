@@ -4,5 +4,7 @@ using UnityEngine;
 
 public interface IPlayerProp : IBaseProp
 {
-    void Dmage(int atk);
+    void Dmage(int damage);
+
+    float Cost { get; } 
 }
