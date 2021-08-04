@@ -34,7 +34,10 @@ public class GenerateCharacter : MonoBehaviour
         RaycastHit hit = new RaycastHit();
         if (Physics.Raycast(ray, out hit))
         {
-            Instantiate(m_chara, hit.point, Quaternion.identity);
+            if(hit.collider.gameObject.tag != "Player")
+            {
+                Instantiate(m_chara, hit.point, Quaternion.identity);
+            }
         }
         m_isbuttonClick = true;
     }

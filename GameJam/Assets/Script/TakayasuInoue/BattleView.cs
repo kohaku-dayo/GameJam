@@ -13,6 +13,7 @@ public class BattleView : MonoBehaviour
     [SerializeField] ButtonController m_slectButton2 = default;
     [SerializeField] ButtonController m_slectButton3 = default;
     [SerializeField] ButtonController m_slectButton4 = default;
+    [SerializeField] Text m_cost = default;
 
     public IObservable<CharacterId> EventSelect => Observable.Merge(
         m_slectButton1.ButtonClick,
@@ -21,7 +22,10 @@ public class BattleView : MonoBehaviour
         ,m_slectButton4.ButtonClick);
   
 
-
+    public void Refrect(float cost)
+    {
+        m_cost.text = cost.ToString(); 
+    }
 
 
     private void Awake()
