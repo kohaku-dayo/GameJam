@@ -11,7 +11,7 @@ public interface IBaseProp
 
 namespace BaseSystem.Property
 {
-    public class BaseProp
+    public class BaseProp : MonoBehaviour
     {
         protected List<object> targets = new List<object>();
 
