@@ -58,8 +58,9 @@ GameObject:
   - component: {fileID: 1430346774506080033}
   - component: {fileID: -3760299654265086146}
   - component: {fileID: -5688988511846859068}
+  - component: {fileID: -3603822156846518241}
   m_Layer: 0
-  m_Name: CharacterTest 1
+  m_Name: Enemy
   m_TagString: tag
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -175,12 +176,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 50
-  m_serchColliser:
-  - {fileID: 1632860462928794633}
-  - {fileID: 8022855989003287668}
-  - {fileID: 6726448102385398196}
-  - {fileID: 1411358147544512639}
-  m_mainCollider: {fileID: 1430346774506080033}
   OnChasePlayer: 0
 --- !u!54 &-5688988511846859068
 Rigidbody:
@@ -198,6 +193,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 4
   m_CollisionDetection: 0
+--- !u!114 &-3603822156846518241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4076082040737389449}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7ec94c45740b94e81727752297230d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HP: 10
+  ATK: 2
 --- !u!1 &5664840527790869696
 GameObject:
   m_ObjectHideFlags: 0
