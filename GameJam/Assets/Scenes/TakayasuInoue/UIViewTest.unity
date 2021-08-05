@@ -515,6 +515,10 @@ PrefabInstance:
       value: GenerateEnemy (5)
       objectReference: {fileID: 0}
     - target: {fileID: 7946274721744300853, guid: 6002d922a7d8b9248afd3915edb6f755, type: 3}
+      propertyPath: m_enemy
+      value: 
+      objectReference: {fileID: 4076082040737389449, guid: 0816e856f08fbdb44a1a6d024713547d, type: 3}
+    - target: {fileID: 7946274721744300853, guid: 6002d922a7d8b9248afd3915edb6f755, type: 3}
       propertyPath: m_tower
       value: 
       objectReference: {fileID: 1075122051}
@@ -784,6 +788,10 @@ PrefabInstance:
       value: GenerateEnemy (7)
       objectReference: {fileID: 0}
     - target: {fileID: 7946274721744300853, guid: 6002d922a7d8b9248afd3915edb6f755, type: 3}
+      propertyPath: m_enemy
+      value: 
+      objectReference: {fileID: 4076082040737389449, guid: 0816e856f08fbdb44a1a6d024713547d, type: 3}
+    - target: {fileID: 7946274721744300853, guid: 6002d922a7d8b9248afd3915edb6f755, type: 3}
       propertyPath: m_tower
       value: 
       objectReference: {fileID: 1075122051}
@@ -864,6 +872,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GenerateEnemy (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 7946274721744300853, guid: 6002d922a7d8b9248afd3915edb6f755, type: 3}
+      propertyPath: m_enemy
+      value: 
+      objectReference: {fileID: 4076082040737389449, guid: 0816e856f08fbdb44a1a6d024713547d, type: 3}
     - target: {fileID: 7946274721744300853, guid: 6002d922a7d8b9248afd3915edb6f755, type: 3}
       propertyPath: m_tower
       value: 
@@ -961,6 +973,10 @@ PrefabInstance:
       value: GenerateEnemy (8)
       objectReference: {fileID: 0}
     - target: {fileID: 7946274721744300853, guid: 6002d922a7d8b9248afd3915edb6f755, type: 3}
+      propertyPath: m_enemy
+      value: 
+      objectReference: {fileID: 4076082040737389449, guid: 0816e856f08fbdb44a1a6d024713547d, type: 3}
+    - target: {fileID: 7946274721744300853, guid: 6002d922a7d8b9248afd3915edb6f755, type: 3}
       propertyPath: m_tower
       value: 
       objectReference: {fileID: 1075122051}
@@ -1025,6 +1041,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GenerateEnemy (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 7946274721744300853, guid: 6002d922a7d8b9248afd3915edb6f755, type: 3}
+      propertyPath: m_enemy
+      value: 
+      objectReference: {fileID: 4076082040737389449, guid: 0816e856f08fbdb44a1a6d024713547d, type: 3}
     - target: {fileID: 7946274721744300853, guid: 6002d922a7d8b9248afd3915edb6f755, type: 3}
       propertyPath: m_tower
       value: 
@@ -1267,6 +1287,10 @@ PrefabInstance:
       value: GenerateEnemy (4)
       objectReference: {fileID: 0}
     - target: {fileID: 7946274721744300853, guid: 6002d922a7d8b9248afd3915edb6f755, type: 3}
+      propertyPath: m_enemy
+      value: 
+      objectReference: {fileID: 4076082040737389449, guid: 0816e856f08fbdb44a1a6d024713547d, type: 3}
+    - target: {fileID: 7946274721744300853, guid: 6002d922a7d8b9248afd3915edb6f755, type: 3}
       propertyPath: m_tower
       value: 
       objectReference: {fileID: 1075122051}
@@ -1419,6 +1443,10 @@ PrefabInstance:
       value: GenerateEnemy (2)
       objectReference: {fileID: 0}
     - target: {fileID: 7946274721744300853, guid: 6002d922a7d8b9248afd3915edb6f755, type: 3}
+      propertyPath: m_enemy
+      value: 
+      objectReference: {fileID: 4076082040737389449, guid: 0816e856f08fbdb44a1a6d024713547d, type: 3}
+    - target: {fileID: 7946274721744300853, guid: 6002d922a7d8b9248afd3915edb6f755, type: 3}
       propertyPath: m_tower
       value: 
       objectReference: {fileID: 1075122051}
@@ -1483,6 +1511,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GenerateEnemy (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 7946274721744300853, guid: 6002d922a7d8b9248afd3915edb6f755, type: 3}
+      propertyPath: m_enemy
+      value: 
+      objectReference: {fileID: 4076082040737389449, guid: 0816e856f08fbdb44a1a6d024713547d, type: 3}
     - target: {fileID: 7946274721744300853, guid: 6002d922a7d8b9248afd3915edb6f755, type: 3}
       propertyPath: m_tower
       value: 
@@ -1727,6 +1759,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GenerateEnemy
       objectReference: {fileID: 0}
+    - target: {fileID: 7946274721744300853, guid: 6002d922a7d8b9248afd3915edb6f755, type: 3}
+      propertyPath: m_enemy
+      value: 
+      objectReference: {fileID: 4076082040737389449, guid: 0816e856f08fbdb44a1a6d024713547d, type: 3}
     - target: {fileID: 7946274721744300853, guid: 6002d922a7d8b9248afd3915edb6f755, type: 3}
       propertyPath: m_tower
       value: 

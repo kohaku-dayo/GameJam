@@ -16,7 +16,7 @@ public class CasterPlayer : BaseProp, IPlayerProp
     [SerializeField] int _attck;
     [SerializeField] float _cost;
 
-    
+    [SerializeField]Animator m_anim;
     
     private void Awake()
     {
@@ -30,7 +30,8 @@ public class CasterPlayer : BaseProp, IPlayerProp
     {
        
             m_time += Time.deltaTime;
-        
+            //m_anim.SetBool("Attack",false);
+
         if (m_time > m_intarval)
         {
             Debug.Log("CastPlayer");
@@ -44,6 +45,7 @@ public class CasterPlayer : BaseProp, IPlayerProp
 
             //arrow.GetComponent<IMagicDamage>().damage = this.atk;
             //arrow.GetComponent<IMagicDamage>().target = target;
+            m_anim.SetBool("Attack",true);
             target.GetComponent<IEnemy>().Damage(atk);
             m_time = 0;
         }

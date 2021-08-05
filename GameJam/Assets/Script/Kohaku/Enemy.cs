@@ -18,6 +18,7 @@ public class Enemy : EnemyProp, IEnemy
     [SerializeField] Slider m_slider;
     [SerializeField] GameObject effect;
     [SerializeField] int m_Cost;
+    [SerializeField] Animator m_anim;
     private GameObject m_target;
     private GameObject m_Tower;
     private Rigidbody m_rigid;
@@ -37,6 +38,8 @@ public class Enemy : EnemyProp, IEnemy
         m_Tower = GameObject.FindGameObjectWithTag("Tower");
         SetTrigger();
         m_slider.maxValue = HP;
+        m_anim.SetBool("Walk", true);
+
     }
 
     void SetTrigger()
@@ -69,7 +72,7 @@ public class Enemy : EnemyProp, IEnemy
    
     private void Update()
     {
-
+  
         if (!isMovePleyer || m_target == null)
         {
             Debug.Log("ChaseTower");
@@ -90,6 +93,7 @@ public class Enemy : EnemyProp, IEnemy
                 {
                     // Ç±Ç±Ç…EnemyÇ…É_ÉÅÅ[ÉWÇó^Ç¶ÇÈèàóùÇèëÇ≠
                     m_target.GetComponent<IPlayerProp>().Dmage(Attack);
+
                     if (m_target.GetComponent<IPlayerProp>().IsDead)
                     {
                         isMovePleyer = false;
@@ -126,6 +130,14 @@ public class Enemy : EnemyProp, IEnemy
             Destroy(this.gameObject);
         }
         //Instantiate(effect, transform.position, Quaternion.identity);
+        Effect().Forget();
+    }
+    async UniTask Effect()
+    {
+        var effects = Instantiate(effect, transform.position, Quaternion.identity);
+        await UniTask.Delay(TimeSpan.FromSeconds(1));
+        Destroy(effects);
+
     }
 
     public void OnAtkChanged(int value)
