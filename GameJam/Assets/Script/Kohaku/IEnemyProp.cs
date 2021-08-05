@@ -8,6 +8,7 @@ public interface IEnemy : IBaseProp
 {
     void Damage(int attack);
     void SetTarget(GameObject taget);
+    public int Attack { get; set; }
 }
 
 namespace BaseSystem.Property

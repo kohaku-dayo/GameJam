@@ -9,12 +9,13 @@ public class GenerateEnemy : MonoBehaviour
 {
     [SerializeField] GameObject m_enemy;
     [SerializeField] GameObject m_manager;
-    GameObject m_tower;
+    [SerializeField] GameObject m_tower;
     bool isFinish = false;
     // Start is called before the first frame update
     void Start()
     {
-        m_tower = GameObject.FindGameObjectWithTag("Tower");
+        //m_tower = GameObject.FindGameObjectWithTag("Tower");
+        
         m_manager.GetComponent<IManager>().GameOver.Subscribe(_=> isFinish = true);
         LoopInstantiateEnemyAsync().Forget();
     }
@@ -38,7 +39,6 @@ public class GenerateEnemy : MonoBehaviour
         }
         var enemy = Instantiate(m_enemy, this.transform.position, Quaternion.AngleAxis(90, Vector3.right));
 
-        enemy.GetComponent<PlayerChaser>().SetTowerGameObject(m_tower);
     }
     // Update is called once per frame
     void Update()

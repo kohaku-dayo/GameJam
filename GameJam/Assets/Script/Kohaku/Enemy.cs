@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using BaseSystem.Property;
-using Handy;
 using UniRx;
 using UniRx.Triggers;
 using System;
 using Cysharp.Threading.Tasks;
+using UnityEngine.UI;
 
 public class Enemy : EnemyProp, IEnemy
 {
@@ -14,60 +14,94 @@ public class Enemy : EnemyProp, IEnemy
     [SerializeField] int HP = 10;
     [SerializeField] int ATK = 2;
     [SerializeField] float m_speed;
-    [SerializeField] Collider m_serchCollider;
+    [SerializeField] List<Collider> m_serchCollider;
+    [SerializeField] Slider m_slider;
 
     private GameObject m_target;
+    private GameObject m_Tower;
     private Rigidbody m_rigid;
-
+    private Vector3 m_targetpos;
     bool isMovePleyer = false;
+    bool iscollider = false;
 
+    Vector3 thispos;
+    public int Attack{ get; set; }
+    int m_maxHp;
     private void Awake()
     {
         hp = HP;
-        atk = ATK;
+        m_maxHp = HP;
+        Attack = ATK;
         m_rigid = GetComponent<Rigidbody>();
+        m_target = GameObject.FindGameObjectWithTag("Tower");
+        SetTrigger();
+    }
 
-        m_serchCollider.OnTriggerEnterAsObservable()
+    void SetTrigger()
+    {
+        foreach (var c in m_serchCollider)
+        {
+            c.OnTriggerEnterAsObservable()
+                .Where(other => other.gameObject.tag == "Player")
+                .Subscribe(other =>
+                {
+                    m_target = other.gameObject;
+                    isMovePleyer = true;
+                    thispos = this.transform.position;
+                    m_targetpos = m_target.transform.position + (this.transform.position - m_target.transform.position).normalized;
+                });
+
+            c.OnTriggerExitAsObservable()
             .Where(other => other.gameObject.tag == "Player")
-            .Subscribe(other => 
+            .Subscribe(other =>
             {
                 m_target = other.gameObject;
-                isMovePleyer = true;
+                isMovePleyer = false;
 
-             });
-
-        m_serchCollider.OnTriggerExitAsObservable()
-        .Where(other => other.gameObject.tag == "Player")
-        .Subscribe(other =>
-        {
-            m_target = other.gameObject;
-            isMovePleyer = true;
-
-        });
+            });
+        }
     }
 
 
-
+   
     private void Update()
     {
         if (!isMovePleyer)
         {
-            Tracer.trace(m_target.transform, this.transform, m_rigid, m_speed);
+            Debug.Log("ChaseTower");
+
+            m_rigid.velocity = (m_target.transform.position - this.transform.position).normalized * m_speed;
+            //transform.position += (m_targetpos - this.transform.position).normalized * m_speed * Time.deltaTime;
+
         }
         else
         {
-            Tracer.trace(m_target.transform, this.transform, m_rigid, 1, m_speed);
+            Debug.Log("ChasePlayer");
+            m_rigid.velocity = (m_target.transform.position - thispos);
+
+            m_target.GetComponent<IPlayerProp>().Dmage(Attack);
         }
     }
 
     public void SetTarget(GameObject tower)
     {
-        m_target = tower;
+
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.tag == "Player")
+        {
+            m_rigid.velocity = Vector3.zero;
+            iscollider = true;
+            
+        }
     }
 
     public void Damage(int attack)
     {
         hp -= attack;
+        m_slider.value = hp / m_maxHp;
     }
 
     public void OnAtkChanged(int value)
@@ -78,5 +112,39 @@ public class Enemy : EnemyProp, IEnemy
     public void OnHpChanged(int value)
     {
         if (hp <= 0) Destroy(this);
+    }
+    public  bool trace(Vector3 target, Vector3 self, Rigidbody selfrb, float traceSpeed = 1f)
+    {
+        //if (target)
+        //{
+        //    Debug.Log("Target");
+        //}
+        //else if (self)
+        //{
+        //    Debug.Log("SElf");
+        //}
+      
+        var direction = (target - self).normalized;
+        if (Vector3.Distance(target, self) < 0.1f)
+        {
+            selfrb.velocity = Vector3.zero;
+            return false;
+        }
+        else selfrb.velocity = direction * traceSpeed;
+        return true;
+    }
+    /// <summary>
+    /// ターゲットとの範囲指定可能追跡機能
+    /// </summary>
+    public  bool trace2(GameObject target, GameObject self, Rigidbody selfrb, float DontMoveAreaRange, float traceSpeed = 1f)
+    {
+        var direction = (target.transform.position - self.transform.position).normalized;
+        if (Vector3.Distance(target.transform.position, self.transform.position) < DontMoveAreaRange)
+        {
+            selfrb.velocity = Vector3.zero;
+            return false;
+        }
+        else selfrb.velocity = direction * traceSpeed;
+        return true;
     }
 }
