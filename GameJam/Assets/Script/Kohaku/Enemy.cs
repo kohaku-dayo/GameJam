@@ -74,11 +74,16 @@ public class Enemy : EnemyProp, IEnemy
             //transform.position += (m_targetpos - this.transform.position).normalized * m_speed * Time.deltaTime;
 
         }
+        else if (Vector3.Distance(m_target.transform.position, this.transform.position) < 3f)
+        {
+            m_rigid.velocity = Vector3.zero;
+            Debug.Log("Stop");
+        }
         else
         {
             Debug.Log("ChasePlayer");
             m_rigid.velocity = (m_target.transform.position - thispos);
-
+    
             m_target.GetComponent<IPlayerProp>().Dmage(Attack);
         }
     }
@@ -88,15 +93,7 @@ public class Enemy : EnemyProp, IEnemy
 
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if(collision.gameObject.tag == "Player")
-        {
-            m_rigid.velocity = Vector3.zero;
-            iscollider = true;
-            
-        }
-    }
+   
 
     public void Damage(int attack)
     {
