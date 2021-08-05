@@ -20,6 +20,7 @@ public class TankPlayer : BaseProp ,IPlayerProp
 
     private void Update()
     {
+        Debug.Log(hp);
         if (m_AttackStart == true)
         {
             m_time += Time.deltaTime;

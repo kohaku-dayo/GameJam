@@ -23,7 +23,7 @@ public class Enemy : EnemyProp, IEnemy
     private Vector3 m_targetpos;
     bool isMovePleyer = false;
     bool iscollider = false;
-
+    [SerializeField] float m_intarval = 3;
     Vector3 thispos;
     public int Attack{ get; set; }
     int m_maxHp;
@@ -33,7 +33,7 @@ public class Enemy : EnemyProp, IEnemy
         m_maxHp = HP;
         Attack = ATK;
         m_rigid = GetComponent<Rigidbody>();
-        m_target = GameObject.FindGameObjectWithTag("Tower");
+        m_Tower = GameObject.FindGameObjectWithTag("Tower");
         SetTrigger();
     }
 
@@ -55,36 +55,52 @@ public class Enemy : EnemyProp, IEnemy
             .Where(other => other.gameObject.tag == "Player")
             .Subscribe(other =>
             {
-                m_target = other.gameObject;
+                //m_target = other.gameObject;
+                Debug.Log("Exit");
                 isMovePleyer = false;
 
             });
         }
     }
 
-
+    float attackTime;
    
     private void Update()
     {
+
         if (!isMovePleyer)
         {
             Debug.Log("ChaseTower");
 
-            m_rigid.velocity = (m_target.transform.position - this.transform.position).normalized * m_speed;
+            m_rigid.velocity = (m_Tower.transform.position - this.transform.position).normalized * m_speed;
             //transform.position += (m_targetpos - this.transform.position).normalized * m_speed * Time.deltaTime;
 
         }
-        else if (Vector3.Distance(m_target.transform.position, this.transform.position) < 3f)
-        {
-            m_rigid.velocity = Vector3.zero;
-            Debug.Log("Stop");
-        }
         else
         {
-            Debug.Log("ChasePlayer");
+            if (Vector3.Distance(m_target.transform.position, this.transform.position) < 127f)
+            {
+                m_rigid.velocity = Vector3.zero;
+                Debug.Log("Stop");
+                attackTime += Time.deltaTime;
+
+                if (attackTime > m_intarval)
+                {
+                    // Ç±Ç±Ç…EnemyÇ…É_ÉÅÅ[ÉWÇó^Ç¶ÇÈèàóùÇèëÇ≠
+                    m_target.GetComponent<IPlayerProp>().Dmage(Attack);
+                    
+                    Destroy(m_target.gameObject);
+                    isMovePleyer = false;
+
+                    Debug.Log("Destroy");
+                    attackTime = 0;
+                }
+                return;
+            }
+            //Debug.Log(Vector3.Distance(m_targetpos, this.transform.position));
+            //Debug.Log("ChasePlayer");
             m_rigid.velocity = (m_target.transform.position - thispos);
-    
-            m_target.GetComponent<IPlayerProp>().Dmage(Attack);
+           
         }
     }
 
