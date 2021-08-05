@@ -10,6 +10,8 @@ public class ArcherPlayer : BaseProp, IPlayerProp
     [SerializeField] float m_intarval;
     public float Cost => 8;
 
+    IEnemy target_IEnemy;
+
     private void Awake()
     {
         hp = 50;
@@ -24,7 +26,8 @@ public class ArcherPlayer : BaseProp, IPlayerProp
         }
         if (m_time > m_intarval)
         {
-            // ここにEnemyにダメージを与える処理を書く
+            // ここにEnemyにダメージを与える処理
+            target_IEnemy.Damage(atk);
             m_time = 0;
         }
     }
@@ -39,6 +42,7 @@ public class ArcherPlayer : BaseProp, IPlayerProp
         if (other.gameObject.tag == "Enemy")
         {
             m_AttackStart = true;
+            target_IEnemy = other.gameObject.GetComponent<IEnemy>();
         }
     }
 
