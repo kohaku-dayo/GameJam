@@ -12,6 +12,7 @@ public class Arrow : MonoBehaviour, IarrowDamage
 
     private void Awake()
     {
+        Debug.Log("arrow instanceated");
         rb = GetComponent<Rigidbody>();
     }
     private void FixedUpdate()

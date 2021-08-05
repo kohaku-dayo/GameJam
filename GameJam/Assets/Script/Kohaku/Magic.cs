@@ -9,14 +9,18 @@ public class Magic : MonoBehaviour, IMagicDamage
 
     public int damage { get; set; }
     public GameObject target { get; set; }
+    [SerializeField] float speed;
 
     private void Awake()
     {
+        Debug.Log("magic instanciated");
         rb = GetComponent<Rigidbody>();
     }
     private void FixedUpdate()
     {
-        Tracer.trace(target, gameObject, rb);
+
+        rb.velocity = target.transform.position - this.transform.position;
+        //Tracer.trace(target, gameObject, rb, speed);
     }
 
     private void OnTriggerEnter(Collider other)
