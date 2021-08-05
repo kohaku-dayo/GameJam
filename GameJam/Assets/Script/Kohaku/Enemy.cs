@@ -98,7 +98,7 @@ public class Enemy : EnemyProp, IEnemy
     public void Damage(int attack)
     {
         hp -= attack;
-        m_slider.value = hp / m_maxHp;
+        //m_slider.value = hp / m_maxHp;
     }
 
     public void OnAtkChanged(int value)
@@ -108,7 +108,8 @@ public class Enemy : EnemyProp, IEnemy
 
     public void OnHpChanged(int value)
     {
-        if (hp <= 0) Destroy(this);
+        Debug.Log(value);
+        if (hp <= 0) Destroy(this.gameObject);
     }
     public  bool trace(Vector3 target, Vector3 self, Rigidbody selfrb, float traceSpeed = 1f)
     {

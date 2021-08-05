@@ -6,12 +6,16 @@ using BaseSystem.Property;
 public class CasterPlayer : BaseProp, IPlayerProp
 {
     private bool m_AttackStart = false;
-    private float m_time;
+    public float m_time;
     [SerializeField] float m_intarval;
     public float Cost => 8;
 
+    GameObject target;
+    [SerializeField] GameObject magic;
+
     private void Awake()
     {
+        SetCallback(this);
         hp = 50;
         atk = 20;
     }
@@ -24,7 +28,14 @@ public class CasterPlayer : BaseProp, IPlayerProp
         }
         if (m_time > m_intarval)
         {
-            // ここにEnemyにダメージを与える処理を書く
+            Debug.Log("CastPlayer");
+            // ここにEnemyにダメージを与える処理
+            // Enemyは矢を放つので、放った瞬間ダメージを与える処理は行いません。
+            // 矢のスクリプトにてダメージ処理を行ってください。
+            // 矢へArcherのatkを遷移するので、ArcherスクリプトにてIarrowDamageインターフェースを実装してください。
+            GameObject arrow = Instantiate(magic, transform.position, Quaternion.identity);
+            arrow.GetComponent<IMagicDamage>().damage = this.atk;
+            arrow.GetComponent<IMagicDamage>().target = target;
             m_time = 0;
         }
     }
@@ -39,6 +50,7 @@ public class CasterPlayer : BaseProp, IPlayerProp
         if (other.gameObject.tag == "Enemy")
         {
             m_AttackStart = true;
+            target = other.gameObject;
         }
     }
 
@@ -52,11 +64,17 @@ public class CasterPlayer : BaseProp, IPlayerProp
 
     public void OnAtkChanged(int value)
     {
-        throw new System.NotImplementedException();
     }
 
     public void OnHpChanged(int value)
     {
-        throw new System.NotImplementedException();
+        Debug.Log("hi");
+        if (value <= 0) Destroy(this.gameObject);
     }
+}
+
+public interface IMagicDamage
+{
+    int damage { get; set; }
+    GameObject target { get; set; }
 }

@@ -8,6 +8,7 @@ TagManager:
   - mediamenmy
   - daiene
   - Tower
+  - Enemy
   layers:
   - Default
   - TransparentFX
