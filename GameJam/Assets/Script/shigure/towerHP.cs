@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Cysharp.Threading;
 using UnityEngine.UI;
+using System;
+using Cysharp.Threading.Tasks;
 
 public class towerHP : MonoBehaviour
 {
@@ -27,16 +29,22 @@ public class towerHP : MonoBehaviour
         Debug.Log("Start crenntHP:" + crenntHP);
         
     }
-
+   
     private void OnTriggerEnter(Collider collider)
     {
         Debug.Log("kk");
-        if (collider.gameObject.tag == "tag") 
+        if (collider.gameObject.tag == "Enemy") 
         {
             crenntHP -= collider.gameObject.GetComponent<IEnemy>().Attack;
             slider.value = crenntHP;
             //Instantiate(m_effect, this.transform.position, Quaternion.identity);
+            Effect().Forget();
             Destroy(collider.gameObject);
+            if(crenntHP <= 0)
+            {
+                GameObject.Find("BattleManager").GetComponent<BattleManager>().GameOverExcute();
+                Destroy(this.gameObject);
+            }
         }   
         //if(collider.gameObject.tag == "mediamenmy")
         //{
@@ -49,6 +57,13 @@ public class towerHP : MonoBehaviour
         //    slider.value = crenntHP / maxHp;
         //}
 
+
+    }
+    async UniTask Effect()
+    {
+        var effects = Instantiate(m_effect, transform.position, Quaternion.AngleAxis(90, Vector3.right));
+        await UniTask.Delay(TimeSpan.FromSeconds(1));
+        Destroy(effects);
 
     }
     // Update is called once per frame

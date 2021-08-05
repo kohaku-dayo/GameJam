@@ -11,6 +11,7 @@ public class SwordPlayer : BaseProp, IPlayerProp
     public float Cost => 8;
 
     IEnemy target_IEnemy;
+    public bool IsDead { get; private set; }
 
     private void Awake()
     {
@@ -61,6 +62,10 @@ public class SwordPlayer : BaseProp, IPlayerProp
 
     public void OnHpChanged(int value)
     {
-        if (value <= 0) Destroy(this.gameObject);
+        if (value <= 0)
+        {
+            IsDead = true;
+            Destroy(this.gameObject);
+        }
     }
 }

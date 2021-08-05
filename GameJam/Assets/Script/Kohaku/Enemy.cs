@@ -16,7 +16,9 @@ public class Enemy : EnemyProp, IEnemy
     [SerializeField] float m_speed;
     [SerializeField] List<Collider> m_serchCollider;
     [SerializeField] Slider m_slider;
-
+    [SerializeField] GameObject effect;
+    [SerializeField] int m_Cost;
+    [SerializeField] Animator m_anim;
     private GameObject m_target;
     private GameObject m_Tower;
     private Rigidbody m_rigid;
@@ -25,7 +27,7 @@ public class Enemy : EnemyProp, IEnemy
     bool iscollider = false;
     [SerializeField] float m_intarval = 3;
     Vector3 thispos;
-    public int Attack{ get; set; }
+    public int Attack { get; set; }
     int m_maxHp;
     private void Awake()
     {
@@ -35,6 +37,9 @@ public class Enemy : EnemyProp, IEnemy
         m_rigid = GetComponent<Rigidbody>();
         m_Tower = GameObject.FindGameObjectWithTag("Tower");
         SetTrigger();
+        m_slider.maxValue = HP;
+        m_anim.SetBool("Walk", true);
+
     }
 
     void SetTrigger()
@@ -67,8 +72,8 @@ public class Enemy : EnemyProp, IEnemy
    
     private void Update()
     {
-
-        if (!isMovePleyer)
+  
+        if (!isMovePleyer || m_target == null)
         {
             Debug.Log("ChaseTower");
 
@@ -88,9 +93,12 @@ public class Enemy : EnemyProp, IEnemy
                 {
                     // Ç±Ç±Ç…EnemyÇ…É_ÉÅÅ[ÉWÇó^Ç¶ÇÈèàóùÇèëÇ≠
                     m_target.GetComponent<IPlayerProp>().Dmage(Attack);
-                    
-                    Destroy(m_target.gameObject);
-                    isMovePleyer = false;
+
+                    if (m_target.GetComponent<IPlayerProp>().IsDead)
+                    {
+                        isMovePleyer = false;
+                    }
+                  
 
                     Debug.Log("Destroy");
                     attackTime = 0;
@@ -114,7 +122,22 @@ public class Enemy : EnemyProp, IEnemy
     public void Damage(int attack)
     {
         hp -= attack;
-        //m_slider.value = hp / m_maxHp;
+        m_slider.value -= attack;
+    
+        if (hp <= 0) 
+        {
+            GameObject.Find("BattleManager").GetComponent<BattleManager>().AddCost(m_Cost);
+            Destroy(this.gameObject);
+        }
+        //Instantiate(effect, transform.position, Quaternion.identity);
+        Effect().Forget();
+    }
+    async UniTask Effect()
+    {
+        var effects = Instantiate(effect, transform.position, Quaternion.AngleAxis(90, Vector3.right));
+        await UniTask.Delay(TimeSpan.FromSeconds(1));
+        Destroy(effects);
+
     }
 
     public void OnAtkChanged(int value)

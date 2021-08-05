@@ -41,7 +41,7 @@ public class GenerateCharacter : MonoBehaviour
         RaycastHit hit = new RaycastHit();
         if (Physics.Raycast(ray, out hit))
         {
-            if (hit.collider.gameObject.tag == "Player" ||
+            if (
                m_IManager.SumCost < m_chara.GetComponent<IPlayerProp>().Cost)
             {
                 m_battleView.SelectCancel();
@@ -49,8 +49,9 @@ public class GenerateCharacter : MonoBehaviour
                 return;
             }
             var chara = Instantiate(m_chara, hit.point, Quaternion.AngleAxis(90, Vector3.right));
-            var cost = chara.GetComponent<IPlayerProp>().Cost;
-            m_IManager.ReduceCost(cost);
+            var cost = chara.GetComponent<CasterPlayer>().Cost;
+            //m_IManager.ReduceCost(cost);
+            GameObject.Find("BattleManager").GetComponent<BattleManager>().ReduceCost(cost);
             
         }
         m_battleView.SelectCancel();

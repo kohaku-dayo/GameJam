@@ -26,7 +26,9 @@ public class BattleView : MonoBehaviour
 
     public void RefrectCost(float cost)
     {
-        m_cost.text = cost.ToString(); 
+        //m_cost.text = $"ÉRÉXÉg{cost.ToString()}";
+        m_cost.text = cost.ToString();
+
     }
 
     public void RefrectTime(float time)

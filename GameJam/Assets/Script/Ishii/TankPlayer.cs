@@ -9,6 +9,7 @@ public class TankPlayer : BaseProp ,IPlayerProp
     private float m_time;
     [SerializeField] float m_intarval;
     public float Cost => 5f;
+    public bool IsDead { get; private set; }
 
     IEnemy target_IEnemy;
 
