@@ -34,9 +34,9 @@ public class TankPlayer : BaseProp ,IPlayerProp
         hp -= atk;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.tag == "Enemy")
+        if (other.gameObject.tag == "Enemy")
         {
             m_AttackStart = true;
         }

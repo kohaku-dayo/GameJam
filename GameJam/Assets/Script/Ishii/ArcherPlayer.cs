@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using BaseSystem.Property;
 
-public class SwordPlayer : BaseProp, IPlayerProp
+public class ArcherPlayer : BaseProp, IPlayerProp
 {
     private bool m_AttackStart = false;
     private float m_time;
