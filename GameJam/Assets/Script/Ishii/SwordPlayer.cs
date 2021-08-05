@@ -61,6 +61,6 @@ public class SwordPlayer : BaseProp, IPlayerProp
 
     public void OnHpChanged(int value)
     {
-        throw new System.NotImplementedException();
+        if (value <= 0) Destroy(this.gameObject);
     }
 }

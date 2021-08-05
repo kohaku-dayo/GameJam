@@ -11,6 +11,7 @@ public class ArcherPlayer : BaseProp, IPlayerProp
     public float Cost => 8;
 
     IEnemy target_IEnemy;
+    [SerializeField] GameObject arrow;
 
     private void Awake()
     {
@@ -27,7 +28,11 @@ public class ArcherPlayer : BaseProp, IPlayerProp
         if (m_time > m_intarval)
         {
             // ここにEnemyにダメージを与える処理
-            target_IEnemy.Damage(atk);
+            // Enemyは矢を放つので、放った瞬間ダメージを与える処理は行いません。
+            // 矢のスクリプトにてダメージ処理を行ってください。
+            // 矢へArcherのatkを遷移するので、ArcherスクリプトにてIarrowDamageインターフェースを実装してください。
+            GameObject arrow =  Instantiate(this.arrow, transform.position, Quaternion.identity);
+            arrow.GetComponent<IarrowDamage>().damage = this.atk;
             m_time = 0;
         }
     }
@@ -61,6 +66,12 @@ public class ArcherPlayer : BaseProp, IPlayerProp
 
     public void OnHpChanged(int value)
     {
-        throw new System.NotImplementedException();
+        if (value <= 0) Destroy(this.gameObject);
     }
+}
+
+public interface IarrowDamage
+{
+    int damage { get; set; }
+    GameObject target { get; set; }
 }
