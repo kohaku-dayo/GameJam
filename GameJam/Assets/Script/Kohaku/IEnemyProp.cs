@@ -4,7 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using BaseSystem.Property;
 
-public interface IEnemy : IBaseProp{}
+public interface IEnemy : IBaseProp
+{
+    void Damage(int attack);
+    void SetTarget(GameObject taget);
+}
 
 namespace BaseSystem.Property
 {

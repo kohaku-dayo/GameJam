@@ -9,29 +9,38 @@ using AppConst;
 
 public class BattleView : MonoBehaviour
 {
-    [SerializeField] ButtonController m_slectButton1 = default;
-    [SerializeField] ButtonController m_slectButton2 = default;
-    [SerializeField] ButtonController m_slectButton3 = default;
-    [SerializeField] ButtonController m_slectButton4 = default;
+    [SerializeField] List<ButtonController> m_selectButton = new List<ButtonController>();
+    [SerializeField] Text m_cost = default;
+    [SerializeField] Text m_time = default;
 
     public IObservable<CharacterId> EventSelect => Observable.Merge(
-        m_slectButton1.ButtonClick,
-        m_slectButton2.ButtonClick,
-        m_slectButton3.ButtonClick
-        ,m_slectButton4.ButtonClick);
-  
-
-
-
+        m_selectButton[0].ButtonClick,
+        m_selectButton[1].ButtonClick,
+        m_selectButton[2].ButtonClick
+        ,m_selectButton[3].ButtonClick);
 
     private void Awake()
     {
-      
+        SelectCancel();
+    }
 
-    }
-    // Update is called once per frame
-    void Update()
+    public void RefrectCost(float cost)
     {
-        
+        m_cost.text = cost.ToString(); 
     }
+
+    public void RefrectTime(float time)
+    {
+        m_time.text = time.ToString();
+    }
+
+    public void SelectCancel()
+    {
+        foreach(var b in m_selectButton)
+        {
+            b.SelectCancelImage();
+        }
+    }
+   
+ 
 }

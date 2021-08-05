@@ -34,7 +34,7 @@ public class towerHP : MonoBehaviour
         if (collider.gameObject.tag == "tag") 
         {
             crenntHP -= Zakoenemy;
-            slider.value = crenntHP / maxHp;
+            slider.value = crenntHP;
 
         }   
         if(collider.gameObject.tag == "mediamenmy")
@@ -53,6 +53,7 @@ public class towerHP : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        Debug.Log( crenntHP);
+
     }
 }
