@@ -1304,6 +1304,10 @@ PrefabInstance:
       propertyPath: m_battleManager
       value: 
       objectReference: {fileID: 228162566}
+    - target: {fileID: 585290647999049789, guid: 3259c1fdad73ac44cb25a53bfa0e8708, type: 3}
+      propertyPath: m_character.Array.data[3]
+      value: 
+      objectReference: {fileID: 4871286501262686214, guid: aa83c6d9bbeda5a4bb138ec74dea0dfc, type: 3}
     - target: {fileID: 1884870255663417790, guid: 3259c1fdad73ac44cb25a53bfa0e8708, type: 3}
       propertyPath: m_RootOrder
       value: 3
