@@ -6,7 +6,7 @@ using BaseSystem.Property;
 public class CasterPlayer : BaseProp, IPlayerProp
 {
     private bool m_AttackStart = false;
-    private float m_time;
+    public float m_time;
     [SerializeField] float m_intarval;
     public float Cost => 8;
 
@@ -15,6 +15,7 @@ public class CasterPlayer : BaseProp, IPlayerProp
 
     private void Awake()
     {
+        SetCallback(this);
         hp = 50;
         atk = 20;
     }
@@ -27,6 +28,7 @@ public class CasterPlayer : BaseProp, IPlayerProp
         }
         if (m_time > m_intarval)
         {
+            Debug.Log("CastPlayer");
             // ここにEnemyにダメージを与える処理
             // Enemyは矢を放つので、放った瞬間ダメージを与える処理は行いません。
             // 矢のスクリプトにてダメージ処理を行ってください。
@@ -62,11 +64,11 @@ public class CasterPlayer : BaseProp, IPlayerProp
 
     public void OnAtkChanged(int value)
     {
-        throw new System.NotImplementedException();
     }
 
     public void OnHpChanged(int value)
     {
+        Debug.Log("hi");
         if (value <= 0) Destroy(this.gameObject);
     }
 }

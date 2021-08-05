@@ -16,7 +16,7 @@ public class Magic : MonoBehaviour, IMagicDamage
     }
     private void FixedUpdate()
     {
-        Tracer.trace(target.transform, transform, rb);
+        Tracer.trace(target, gameObject, rb);
     }
 
     private void OnTriggerEnter(Collider other)

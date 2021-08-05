@@ -16,7 +16,7 @@ public class Arrow : MonoBehaviour, IarrowDamage
     }
     private void FixedUpdate()
     {
-        Tracer.trace(target.transform, transform, rb);
+        Tracer.trace(target, gameObject, rb);
     }
 
     private void OnTriggerEnter(Collider other)
