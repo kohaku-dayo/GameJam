@@ -134,7 +134,7 @@ public class Enemy : EnemyProp, IEnemy
     }
     async UniTask Effect()
     {
-        var effects = Instantiate(effect, transform.position, Quaternion.identity);
+        var effects = Instantiate(effect, transform.position, Quaternion.AngleAxis(90, Vector3.right));
         await UniTask.Delay(TimeSpan.FromSeconds(1));
         Destroy(effects);
 
