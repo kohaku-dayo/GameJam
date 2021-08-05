@@ -1377,6 +1377,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7821867225247693023, guid: 387531cb54b6b2149a637603e0ccb74a, type: 3}
+      propertyPath: m_effect
+      value: 
+      objectReference: {fileID: 139366, guid: b185c1a9cf067374586d095111b15bd1, type: 3}
     - target: {fileID: 8774193505975998614, guid: 387531cb54b6b2149a637603e0ccb74a, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
