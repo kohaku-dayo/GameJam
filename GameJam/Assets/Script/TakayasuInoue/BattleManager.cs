@@ -29,15 +29,28 @@ public class BattleManager : MonoBehaviour,IManager
 
     bool isCountTime = true;
 
+    private void Awake()
+    {
+        m_battleView.RefrectCost(sumCost);
+
+    }
+
+    private void Update()
+    {
+        //sumCost += Time.deltaTime;
+    }
     public void AddCost(float cost)
     {
+     
         sumCost += cost;
+        Debug.Log(sumCost);
         m_battleView.RefrectCost(sumCost);
     }
 
     public void ReduceCost(float cost)
     {
         sumCost -= cost;
+        Debug.Log(sumCost);
         m_battleView.RefrectCost(sumCost);
     }
 

@@ -9,14 +9,16 @@ public class ArcherPlayer : BaseProp, IPlayerProp
     private float m_time;
     [SerializeField] float m_intarval;
     public float Cost => 8;
-
+    public bool IsDead { get; private set; }
+    private GameObject enemy;
     IEnemy target_IEnemy;
     [SerializeField] GameObject arrow;
-
+    [SerializeField] int _hp;
+    [SerializeField] int _attck;
     private void Awake()
     {
-        hp = 50;
-        atk = 20;
+        hp = _hp;
+        atk = _attck;
     }
 
     private void Update()
@@ -31,8 +33,10 @@ public class ArcherPlayer : BaseProp, IPlayerProp
             // Enemyは矢を放つので、放った瞬間ダメージを与える処理は行いません。
             // 矢のスクリプトにてダメージ処理を行ってください。
             // 矢へArcherのatkを遷移するので、ArcherスクリプトにてIarrowDamageインターフェースを実装してください。
-            GameObject arrow =  Instantiate(this.arrow, transform.position, Quaternion.identity);
-            arrow.GetComponent<IarrowDamage>().damage = this.atk;
+            //GameObject arrow =  Instantiate(this.arrow, transform.position, Quaternion.identity);
+            //arrow.GetComponent<Magic>().SetTarget(enemy);
+            
+            //arrow.GetComponent<IarrowDamage>().damage = this.atk;
             m_time = 0;
         }
     }
@@ -48,6 +52,7 @@ public class ArcherPlayer : BaseProp, IPlayerProp
         {
             m_AttackStart = true;
             target_IEnemy = other.gameObject.GetComponent<IEnemy>();
+            enemy = other.gameObject;
         }
     }
 
@@ -66,7 +71,11 @@ public class ArcherPlayer : BaseProp, IPlayerProp
 
     public void OnHpChanged(int value)
     {
-        if (value <= 0) Destroy(this.gameObject);
+        if (value <= 0)
+        {
+            IsDead = true;
+            Destroy(this.gameObject);
+        }
     }
 }
 

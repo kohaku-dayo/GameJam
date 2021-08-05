@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 3974457553173894515}
   - component: {fileID: 2491850479497542179}
-  - component: {fileID: 8860775146061162328}
   - component: {fileID: 3736218342425578277}
+  - component: {fileID: -3839595789411283053}
   m_Layer: 0
-  m_Name: CharacterTest
+  m_Name: Caster
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -42,24 +42,11 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4076082040737389449}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.4, y: 1.4, z: 49.51186}
-  m_Center: {x: 0, y: 9.584813e-17, z: 0.8483381}
---- !u!114 &8860775146061162328
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4076082040737389449}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe3b7e39a4719be45be66523295432a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_intarval: 0
+  m_Size: {x: 12.954978, y: 9.680915, z: 49.51186}
+  m_Center: {x: 0.09526825, y: -0.2845166, z: 0.8483391}
 --- !u!54 &3736218342425578277
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -76,6 +63,23 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 4
   m_CollisionDetection: 0
+--- !u!114 &-3839595789411283053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4076082040737389449}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92ccb8cd27ff9af45b9d90f81bffa38b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_intarval: 2
+  magic: {fileID: 6448099417167411, guid: 75068eac5dcb96d478f84c32f334c167, type: 3}
+  _hp: 10
+  _attck: 5
+  _cost: 4
 --- !u!1 &5849758899717623861
 GameObject:
   m_ObjectHideFlags: 0

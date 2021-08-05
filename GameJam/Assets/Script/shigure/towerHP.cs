@@ -31,12 +31,17 @@ public class towerHP : MonoBehaviour
     private void OnTriggerEnter(Collider collider)
     {
         Debug.Log("kk");
-        if (collider.gameObject.tag == "tag") 
+        if (collider.gameObject.tag == "Enemy") 
         {
             crenntHP -= collider.gameObject.GetComponent<IEnemy>().Attack;
             slider.value = crenntHP;
             //Instantiate(m_effect, this.transform.position, Quaternion.identity);
             Destroy(collider.gameObject);
+            if(crenntHP <= 0)
+            {
+                GameObject.Find("BattleManager").GetComponent<BattleManager>().GameOverExcute();
+                Destroy(this.gameObject);
+            }
         }   
         //if(collider.gameObject.tag == "mediamenmy")
         //{

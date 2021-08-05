@@ -5,6 +5,6 @@ using UnityEngine;
 public interface IPlayerProp : IBaseProp
 {
     void Dmage(int damage);
-
+    bool IsDead { get; }
     float Cost { get; } 
 }
