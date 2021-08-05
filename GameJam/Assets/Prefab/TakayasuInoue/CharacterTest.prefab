@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8860775146061162328}
   m_Layer: 0
   m_Name: CharacterTest
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -96,8 +96,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.4, y: 1.4, z: 0.2}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1.4, y: 1.4, z: 49.51186}
+  m_Center: {x: 0, y: 9.584813e-17, z: 0.8483381}
 --- !u!114 &8860775146061162328
 MonoBehaviour:
   m_ObjectHideFlags: 0
