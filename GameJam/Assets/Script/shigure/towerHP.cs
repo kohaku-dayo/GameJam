@@ -9,11 +9,11 @@ public class towerHP : MonoBehaviour
     int maxHp = 100;
     int crenntHP;
     
-    int Zakoenemy = 1;
+    int Zakoenemy = 5;
     int Mediumenemy = 5;
     int Greatenemy = 10;
 
- 
+    [SerializeField] GameObject m_effect = default;
 
 
     public Slider slider;
@@ -33,20 +33,21 @@ public class towerHP : MonoBehaviour
         Debug.Log("kk");
         if (collider.gameObject.tag == "tag") 
         {
-            crenntHP -= Zakoenemy;
+            crenntHP -= collider.gameObject.GetComponent<IEnemy>().Attack;
             slider.value = crenntHP;
-
+            //Instantiate(m_effect, this.transform.position, Quaternion.identity);
+            Destroy(collider.gameObject);
         }   
-        if(collider.gameObject.tag == "mediamenmy")
-        {
-            crenntHP -= Mediumenemy;
-            slider.value = crenntHP / maxHp;
-        }
-        if (collider.gameObject.tag == "daiene")
-        {
-            crenntHP -= Greatenemy;
-            slider.value = crenntHP / maxHp;
-        }
+        //if(collider.gameObject.tag == "mediamenmy")
+        //{
+        //    crenntHP -= Mediumenemy;
+        //    slider.value = crenntHP / maxHp;
+        //}
+        //if (collider.gameObject.tag == "daiene")
+        //{
+        //    crenntHP -= Greatenemy;
+        //    slider.value = crenntHP / maxHp;
+        //}
 
 
     }
