@@ -9,32 +9,25 @@ public class Magic : MonoBehaviour, IMagicDamage
 
     public int damage { get; set; }
     public GameObject target { get; set; }
-    GameObject m_target;
-    [SerializeField] float m_speed;
-    [SerializeField] int m_Damage;
+    [SerializeField] float speed;
 
     private void Awake()
     {
+        Debug.Log("magic instanciated");
         rb = GetComponent<Rigidbody>();
-        m_target = GameObject.FindWithTag("Enemy");
-    }
-    public void SetTarget(GameObject target)
-    {
-        Debug.Log("Set");
-        m_target = target;
     }
     private void FixedUpdate()
     {
-        Debug.Log("Bullet");
 
-        rb.velocity = (m_target.transform.position - this.transform.position).normalized * m_speed;
+        rb.velocity = target.transform.position - this.transform.position;
+        //Tracer.trace(target, gameObject, rb, speed);
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.tag == "Enemy")
         {
-            other.GetComponent<IEnemy>().Damage(m_Damage);
+            other.GetComponent<IEnemy>().Damage(damage);
             Destroy(this.gameObject);
         }
     }

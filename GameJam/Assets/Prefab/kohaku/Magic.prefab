@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 3755043256893047372}
   - component: {fileID: 6149407537835514882}
   - component: {fileID: 5708377461369017543}
-  - component: {fileID: -4760750761100480958}
   - component: {fileID: 2617279337075033518}
   m_Layer: 0
   m_Name: Magic
@@ -30,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 6448099417167411}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 202.22789, y: 796.0238, z: 346.27258}
-  m_LocalScale: {x: 100, y: 100, z: 100}
+  m_LocalScale: {x: 200, y: 200, z: 200}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -96,22 +95,8 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 1.38
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &-4760750761100480958
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6448099417167411}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3174adc147351834487b0642f8d8d806, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_speed: 1
-  m_Damage: 3
 --- !u!54 &2617279337075033518
 Rigidbody:
   m_ObjectHideFlags: 0
