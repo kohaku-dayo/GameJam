@@ -15,7 +15,7 @@ public class CasterPlayer : BaseProp, IPlayerProp
     [SerializeField] int _hp;
     [SerializeField] int _attck;
     [SerializeField] float _cost;
-
+    [SerializeField] AudioSource m_audio;
     [SerializeField]Animator m_anim;
     
     private void Awake()
@@ -50,6 +50,8 @@ public class CasterPlayer : BaseProp, IPlayerProp
     
             target.GetComponent<IEnemy>().Damage(atk);
             m_time = 0;
+
+            //m_audio.Play();
         }
     }
 
