@@ -22,7 +22,9 @@ public class ButtonController : MonoBehaviour
     private void Awake()
     {
         //ButtonClick.Subscribe(_ => m_clickSound.Play());
-        ButtonClick.Subscribe(_ => SelectImage());
+        ButtonClick
+            .SelectMany(Observable.Timer(TimeSpan.FromSeconds(0.1f)))
+            .Subscribe(_ => SelectImage());
     }
 
     public void SelectImage()

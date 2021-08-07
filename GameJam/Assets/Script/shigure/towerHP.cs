@@ -6,10 +6,10 @@ using UnityEngine.UI;
 using System;
 using Cysharp.Threading.Tasks;
 
-public class towerHP : MonoBehaviour
+public class towerHP : MonoBehaviour,IDamage
 {
     int maxHp = 100;
-    int crenntHP;
+    float crenntHP;
     
     int Zakoenemy = 5;
     int Mediumenemy = 5;
@@ -30,35 +30,38 @@ public class towerHP : MonoBehaviour
         
     }
    
-    private void OnTriggerEnter(Collider collider)
+    //private void OnTriggerEnter(Collider collider)
+    //{
+    //    Debug.Log("kk");
+    //    if (collider.gameObject.tag == "Enemy") 
+    //    {
+    //        crenntHP -= collider.gameObject.GetComponent<IEnemyParameter>().Attack.Value;
+    //        slider.value = crenntHP;
+    //        //Instantiate(m_effect, this.transform.position, Quaternion.identity);
+    //        Effect().Forget();
+    //        Destroy(collider.gameObject);
+    //        if(crenntHP <= 0)
+    //        {
+    //            GameObject.Find("BattleManager").GetComponent<BattleManager>().GameOverExcute();
+    //            Destroy(this.gameObject);
+    //        }
+    //    }   
+    //}
+
+    public void Damage(float attack)
     {
-        Debug.Log("kk");
-        if (collider.gameObject.tag == "Enemy") 
+        crenntHP -= attack;
+        slider.value = crenntHP;
+
+        Effect().Forget();
+
+        if (crenntHP <= 0)
         {
-            crenntHP -= collider.gameObject.GetComponent<IEnemy>().Attack;
-            slider.value = crenntHP;
-            //Instantiate(m_effect, this.transform.position, Quaternion.identity);
-            Effect().Forget();
-            Destroy(collider.gameObject);
-            if(crenntHP <= 0)
-            {
-                GameObject.Find("BattleManager").GetComponent<BattleManager>().GameOverExcute();
-                Destroy(this.gameObject);
-            }
-        }   
-        //if(collider.gameObject.tag == "mediamenmy")
-        //{
-        //    crenntHP -= Mediumenemy;
-        //    slider.value = crenntHP / maxHp;
-        //}
-        //if (collider.gameObject.tag == "daiene")
-        //{
-        //    crenntHP -= Greatenemy;
-        //    slider.value = crenntHP / maxHp;
-        //}
-
-
+            GameObject.Find("BattleManager").GetComponent<BattleManager>().GameOverExcute();
+            Destroy(this.gameObject);
+        }
     }
+
     async UniTask Effect()
     {
         var effects = Instantiate(m_effect, transform.position, Quaternion.AngleAxis(90, Vector3.right));

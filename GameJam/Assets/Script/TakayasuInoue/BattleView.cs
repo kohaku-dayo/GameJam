@@ -22,6 +22,7 @@ public class BattleView : MonoBehaviour
     private void Awake()
     {
         SelectCancel();
+        EventSelect.Subscribe(_ => SelectCancel());
     }
 
     public void RefrectCost(float cost)
