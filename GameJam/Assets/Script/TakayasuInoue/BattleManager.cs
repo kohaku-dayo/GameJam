@@ -4,6 +4,7 @@ using UnityEngine;
 using UniRx;
 using System;
 using Cysharp.Threading.Tasks;
+using System.Threading;
 
 public interface IManager
 {
@@ -27,12 +28,13 @@ public class BattleManager : MonoBehaviour,IManager
     Subject<Unit> m_startGame = new Subject<Unit>();
     Subject<float> m_gameOver = new Subject<float>();
 
-    bool isCountTime = true;
+    private float m_maxCost;
+    CancellationTokenSource m_cancellation = new CancellationTokenSource();
 
     private void Awake()
     {
-        m_battleView.RefrectCost(sumCost);
-
+        m_battleView.RefrectCost(sumCost,m_maxCost);
+        m_maxCost = sumCost;
     }
 
     private void Update()
@@ -41,39 +43,42 @@ public class BattleManager : MonoBehaviour,IManager
     }
     public void AddCost(float cost)
     {
-     
         sumCost += cost;
+        if (m_maxCost < sumCost) sumCost = m_maxCost;
+     
         Debug.Log(sumCost);
-        m_battleView.RefrectCost(sumCost);
+        m_battleView.RefrectCost(sumCost , m_maxCost);
     }
 
     public void ReduceCost(float cost)
     {
         sumCost -= cost;
-        Debug.Log(sumCost);
-        m_battleView.RefrectCost(sumCost);
+        if (sumCost < 0) sumCost = 0;
+
+        m_battleView.RefrectCost(sumCost , m_maxCost);
     }
 
     void Start()
     {
         m_startGame.OnNext(Unit.Default);
-        TimeCount().Forget();
+        TimeCount(m_cancellation.Token).Forget();
     }
 
-    async UniTask TimeCount()
+    async UniTask TimeCount(CancellationToken cancellation)
     {
-        while (isCountTime)
+        while (true)
         {
             m_totalTime += Time.deltaTime;
             var time = (float)Math.Floor((m_totalTime * 10) / 10);
-
+            AddCost(0.3f * Time.deltaTime);
             m_battleView.RefrectTime(time);
-            await UniTask.Yield(PlayerLoopTiming.Update);
+            await UniTask.Yield(PlayerLoopTiming.Update, cancellation);
         }
     }
 
     public void GameOverExcute()
     {
         m_gameOver.OnNext(m_totalTime);
+        m_cancellation.Cancel();
     }
 }

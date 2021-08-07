@@ -40,6 +40,8 @@ public class GenerateCharacter : MonoBehaviour
         {
             if(hit.collider.gameObject.tag != "PlayerCollider" && hit.collider.gameObject.tag != "Enemy")
             {
+                if (m_IManager.SumCost <= 0) return;
+
                 Debug.Log(hit.collider.gameObject.tag);
                 var pos = hit.point;
                 pos.y = 0;

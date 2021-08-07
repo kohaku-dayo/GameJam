@@ -57,14 +57,16 @@ public class Enemy : MonoBehaviour, IDamage,IEnemyParameter
                 .Subscribe(other =>
                 {
                     m_target = other.gameObject.transform.parent.gameObject;
-                });
+                })
+                .AddTo(this);
 
         m_mineCollider.OnTriggerEnterAsObservable()
                .Where(other => other.gameObject.tag == "Tower")
                .Subscribe(other =>
                {
                    m_isStop = true;
-               });
+               })
+               .AddTo(this);
 
         //foreach (var c in m_serchCollider)
         //{
@@ -85,7 +87,7 @@ public class Enemy : MonoBehaviour, IDamage,IEnemyParameter
         {
             if (m_isStop)
             {
-                Debug.Log("TowerçUåÇ");
+                Debug.Log("TowerçUåÇ"+this.gameObject.name);
                 StopAndAttack(m_Tower);
                 return;
             }
