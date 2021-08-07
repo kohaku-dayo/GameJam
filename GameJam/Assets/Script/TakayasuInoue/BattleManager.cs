@@ -10,10 +10,11 @@ public interface IManager
 {
     void AddCost(float cost);
     void ReduceCost(float cost);
+    void AddEnemyList(GameObject gameObject);
     IObservable<Unit> StartGame { get; }
     IObservable<float> GameOver { get; }
-
     float SumCost { get; }
+    List<GameObject> EnemyList { get; }
 }
 public class BattleManager : MonoBehaviour,IManager
 {
@@ -27,6 +28,7 @@ public class BattleManager : MonoBehaviour,IManager
 
     Subject<Unit> m_startGame = new Subject<Unit>();
     Subject<float> m_gameOver = new Subject<float>();
+    public List<GameObject> EnemyList { get; private set; } = new List<GameObject>();
 
     private float m_maxCost;
     CancellationTokenSource m_cancellation = new CancellationTokenSource();
@@ -46,9 +48,20 @@ public class BattleManager : MonoBehaviour,IManager
         sumCost += cost;
         if (m_maxCost < sumCost) sumCost = m_maxCost;
      
-        Debug.Log(sumCost);
+   
         m_battleView.RefrectCost(sumCost , m_maxCost);
     }
+
+    public void AddEnemyList(GameObject gameObject)
+    {
+        gameObject.GetComponent<IEnemyParameter>().Hp
+            .Where(hp => hp <= 0)
+            .Subscribe(_ => EnemyList.Remove(gameObject))
+            .AddTo(this);
+
+        EnemyList.Add(gameObject);
+    }
+
 
     public void ReduceCost(float cost)
     {
@@ -66,7 +79,7 @@ public class BattleManager : MonoBehaviour,IManager
 
     async UniTask TimeCount(CancellationToken cancellation)
     {
-        while (true)
+        while (!cancellation.IsCancellationRequested)
         {
             m_totalTime += Time.deltaTime;
             var time = (float)Math.Floor((m_totalTime * 10) / 10);

@@ -79,7 +79,8 @@ MonoBehaviour:
   magic: {fileID: 6448099417167411, guid: 75068eac5dcb96d478f84c32f334c167, type: 3}
   _hp: 15
   _attck: 3
-  _cost: 3
+  _cost: 4
+  m_audio: {fileID: 0}
   m_anim: {fileID: 1979937208092515187}
 --- !u!1 &5849758899717623861
 GameObject:

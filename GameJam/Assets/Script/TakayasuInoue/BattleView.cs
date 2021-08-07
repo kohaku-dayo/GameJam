@@ -14,11 +14,15 @@ public class BattleView : MonoBehaviour
     [SerializeField] Text m_time = default;
     [SerializeField] Text m_costText = default;
 
-    public IObservable<CharacterId> EventSelect => Observable.Merge(
-        m_selectButton[0].ButtonClick,
-        m_selectButton[1].ButtonClick,
-        m_selectButton[2].ButtonClick
-        ,m_selectButton[3].ButtonClick);
+    //public IObservable<CharacterId> EventSelect => Observable.Merge(
+    //    m_selectButton[0].ButtonClick,
+    //    m_selectButton[1].ButtonClick,
+    //    m_selectButton[2].ButtonClick
+    //    ,m_selectButton[3].ButtonClick);
+
+    public IObservable<CharacterId> EventSelect => m_selectButton
+        .ToObservable()
+        .SelectMany(b => b.ButtonClick);
 
     private void Awake()
     {
@@ -46,5 +50,15 @@ public class BattleView : MonoBehaviour
         }
     }
    
+
+    public void RefrectButtonCost(List<float> cost)
+    {
+        int i = 0;
+        foreach(var b in m_selectButton)
+        {
+            b.SetButtonCostText(cost[i]);
+            i++;
+        }
+    }
  
 }

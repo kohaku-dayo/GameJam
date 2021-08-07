@@ -18,9 +18,34 @@ namespace Goriyasu
         {
             m_owner = owner;
             m_target = target;
+
+            m_rigid = GetComponent<Rigidbody>();
   
-            GetComponent<Rigidbody>().velocity =
+            m_rigid.velocity =
                 (m_target.transform.position - this.transform.position).normalized * m_speed;
+
+            if(m_rigid.velocity.x > 0)
+            {
+                var rot = owner.transform.rotation;
+                rot.z = 180;
+                owner.transform.rotation = rot;
+            }
+            else
+            {
+                var rot = owner.transform.rotation;
+                rot.z = 0;
+                owner.transform.rotation = rot;
+            }
+
+            transform.LookAt(m_target.transform.position);
+
+        }
+
+        private void LookEnemy(Transform thisTransform)
+        {
+            var rot = thisTransform.rotation;
+            rot.y -= Vector3.Angle(thisTransform.position, m_target.transform.position);
+            thisTransform.rotation = rot;
         }
 
         public void SetAttackParameter(float attack)

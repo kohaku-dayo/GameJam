@@ -3,26 +3,33 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
 using System;
+using System.Threading;
 
-namespace Goriyasu
+
+public class PlayerArrow : PlayerAbstract
 {
-    public class PlayerArrow : PlayerAbstract
+    [SerializeField] GameObject m_bullet;
+    protected override void AttackIntervalExcute()
     {
-        [SerializeField] GameObject m_bullet;
-        protected override void AttackExcute()
-        {
-            if (m_targer == null) return;
-            m_anim.SetBool("Attack", true);
-            InstantiateBullet().Forget();
-        }
-
-        private async UniTask InstantiateBullet()
-        {
-            await UniTask.Delay(TimeSpan.FromSeconds(0.3f));
-            var bullet = Instantiate(m_bullet, transform.position, Quaternion.AngleAxis(90, Vector3.right));
-            bullet.GetComponent<IBullet>().Initialize(this.gameObject, m_targer);
-        }
+        if (m_targer == null) return;
+        m_anim.SetBool("Attack", true);
+        InstantiateBullet(this.GetCancellationTokenOnDestroy()).Forget();
     }
 
+    protected override void AttckUpdateExcute()
+    {
+        
+    }
 
+    private async UniTask InstantiateBullet(CancellationToken cancellationToken)
+    {
+        await UniTask.Delay(TimeSpan.FromSeconds(0.3f), false, PlayerLoopTiming.Update, cancellationToken);
+
+        var bullet = Instantiate(m_bullet, transform.position, Quaternion.identity);
+        bullet.GetComponent<IBullet>().Initialize(this.gameObject, m_targer);
+        m_anim.SetBool("Attack", false);
+    }
 }
+
+
+

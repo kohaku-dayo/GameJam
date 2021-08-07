@@ -28,6 +28,8 @@ public class GenerateCharacter : MonoBehaviour
             .Subscribe(_ => RayInstantiate());
 
         m_IManager = m_battleManager.GetComponent<IManager>();
+
+        CostRefrect();
     }
 
 
@@ -45,12 +47,24 @@ public class GenerateCharacter : MonoBehaviour
                 Debug.Log(hit.collider.gameObject.tag);
                 var pos = hit.point;
                 pos.y = 0;
-                var chara = Instantiate(m_chara, pos, Quaternion.AngleAxis(90, Vector3.right));
+                var chara = Instantiate(m_chara, pos,Quaternion.identity);
+
                 var cost = chara.GetComponent<IPlayerParameter>().Cost.Value;
                 m_IManager.ReduceCost(cost);
             }            
         }
     }
+
+    private void CostRefrect()
+    {
+        List<float> cost = new List<float>();
+        foreach(var c in m_character)
+        {
+            cost.Add(c.GetComponent<IPlayerParameter>().Cost.Value);
+        }
+        m_battleView.RefrectButtonCost(cost);
+    }
+
 
     void InstatiateCharacter(CharacterId id)
     {

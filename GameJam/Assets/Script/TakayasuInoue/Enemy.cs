@@ -116,7 +116,7 @@ public class Enemy : MonoBehaviour, IDamage,IEnemyParameter
     {
         m_Tower = tower;
         m_manager = manager;
-        manager.GameOver.Subscribe(_ => Destroy(this.gameObject));
+        manager.GameOver.Subscribe(_ => Destroy(this.gameObject)).AddTo(this);
     }
 
     public void Damage(float attack)

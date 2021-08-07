@@ -14,11 +14,13 @@ public class GenerateEnemy : MonoBehaviour
     private List<GameObject> m_enemyList = new List<GameObject>();
     CancellationTokenSource m_cancellationToken = new CancellationTokenSource();
 
-    float count = 0;
+    private IManager Imanager;
     // Start is called before the first frame update
     void Start()
     {
-        m_manager.GetComponent<IManager>().GameOver.Subscribe(_=> m_cancellationToken.Cancel());
+        Imanager = m_manager.GetComponent<IManager>();
+
+        Imanager.GameOver.Subscribe(_=> m_cancellationToken.Cancel());
         InstantiateEnemyAsync(m_cancellationToken.Token).Forget();
     }
 
@@ -31,11 +33,12 @@ public class GenerateEnemy : MonoBehaviour
             time -= Time.deltaTime;
             if (time <= 0)
             {
-                var enemy = Instantiate(m_enemy, this.transform.position, Quaternion.AngleAxis(90, Vector3.right));
+                var enemy = Instantiate(m_enemy, this.transform.position, Quaternion.identity);
 
-                enemy.GetComponent<Enemy>().Initialize(m_tower, m_manager.GetComponent<IManager>());
-                count++;
-                enemy.gameObject.name = count.ToString() + transform.position;
+                enemy.GetComponent<Enemy>().Initialize(m_tower, Imanager);
+
+                Imanager.AddEnemyList(enemy);
+
                 time = UnityEngine.Random.Range(1, 30);
             }
             await UniTask.Yield(PlayerLoopTiming.Update,cancellation);
