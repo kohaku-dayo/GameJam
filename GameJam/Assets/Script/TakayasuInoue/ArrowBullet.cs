@@ -16,6 +16,14 @@ namespace Goriyasu
         Rigidbody m_rigid;
         public void Initialize(GameObject owner, GameObject target)
         {
+
+            if(owner == null || target == null)
+            {
+                Destroy(this.gameObject);
+                return;
+            }
+
+
             m_owner = owner;
             m_target = target;
 
@@ -41,12 +49,12 @@ namespace Goriyasu
 
         }
 
-        private void LookEnemy(Transform thisTransform)
-        {
-            var rot = thisTransform.rotation;
-            rot.y -= Vector3.Angle(thisTransform.position, m_target.transform.position);
-            thisTransform.rotation = rot;
-        }
+        //private void LookEnemy(Transform thisTransform)
+        //{
+        //    var rot = thisTransform.rotation;
+        //    rot.y -= Vector3.Angle(thisTransform.position, m_target.transform.position);
+        //    thisTransform.rotation = rot;
+        //}
 
         public void SetAttackParameter(float attack)
         {

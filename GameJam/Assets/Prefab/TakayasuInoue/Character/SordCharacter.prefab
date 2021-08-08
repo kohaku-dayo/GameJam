@@ -524,7 +524,7 @@ MonoBehaviour:
   m_hp:
     value: 4
   m_cost:
-    value: 1
+    value: 2
   m_attack:
     value: 2
   m_seerchCollider: {fileID: 3799190044342045242}

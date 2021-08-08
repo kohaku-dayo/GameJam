@@ -11,7 +11,7 @@ public class GenerateEnemy : MonoBehaviour
     [SerializeField] GameObject m_enemy;
     [SerializeField] GameObject m_manager;
     [SerializeField] GameObject m_tower;
-    private List<GameObject> m_enemyList = new List<GameObject>();
+
     CancellationTokenSource m_cancellationToken = new CancellationTokenSource();
 
     private IManager Imanager;
@@ -39,7 +39,7 @@ public class GenerateEnemy : MonoBehaviour
 
                 Imanager.AddEnemyList(enemy);
 
-                time = UnityEngine.Random.Range(1, 30);
+                time = UnityEngine.Random.Range(1, 60);
             }
             await UniTask.Yield(PlayerLoopTiming.Update,cancellation);
         }

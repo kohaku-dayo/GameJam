@@ -25,46 +25,52 @@ public abstract class PlayerAbstract : MonoBehaviour, IPlayerParameter, IDamage
     [SerializeField] protected ReactiveProperty<float> m_cost = new ReactiveProperty<float>();
     [SerializeField] protected ReactiveProperty<float> m_attack = new ReactiveProperty<float>();
 
-    protected GameObject m_targer;
+    protected GameObject m_target;
     [SerializeField] Collider m_seerchCollider = default;
     [SerializeField] protected Animator m_anim = default;
     [SerializeField] Slider m_slider = default;
     float m_maxHp;
+    protected IManager m_manager;
 
-    protected BattleManager m_battleManager;
+
     protected abstract void AttackIntervalExcute();
     protected abstract void AttckUpdateExcute();
 
-    protected virtual void Awake()
+    /// <summary>
+    /// ジェネレーター側から呼び出すプレイヤーの初期化。初期化処理を追加したければオーバーライドする
+    /// </summary>
+    /// <param name="manager"></param>
+    public virtual void InitializePlayer(IManager manager)
     {
+        m_manager = manager;
         m_maxHp = m_hp.Value;
-
-        //m_seerchCollider.OnTriggerEnterAsObservable()
-        // .Where(other => other.gameObject.tag == "Enemy" && m_targer == null)
-        // .Subscribe(other => m_targer = other.gameObject)
-        // .AddTo(this);
-
-        m_battleManager = GameObject.FindObjectOfType<BattleManager>();
-
-        SetTarget(m_battleManager.EnemyList);
-
+        SetTarget(m_manager.EnemyList);
         AttackAsync(this.GetCancellationTokenOnDestroy()).Forget();
     }
 
-    public void SetTarget(List<GameObject> target)
+    /// <summary>
+    /// 敵のリストから最も近い敵をターゲットに設定する
+    /// </summary>
+    /// <param name="target"></param>
+    protected void SetTarget(List<GameObject> target)
     {
-        float distance = Vector3.Distance(this.transform.position, target[0].transform.position);
-        m_targer = target[0];
+        //ターゲットが一人もいなかったらリターン
+        if (target[0] == null) return;
+        
+        //ターゲット初期設定
+        float nearDistance = Vector3.Distance(this.transform.position, target[0].transform.position);
+        m_target = target[0];
+
+        //最短距離のエネミーを探索
         foreach (var t in target)
         {
-            var d = Vector3.Distance(this.transform.position, t.transform.position);
-            if( d < distance)
+            var distance = Vector3.Distance(this.transform.position, t.transform.position);
+            if (distance < nearDistance)
             {
-                distance = d;
-                m_targer = t;
+                nearDistance = distance;
+                m_target = t;
             }
         }
-
     }
 
     /// <summary>
@@ -72,7 +78,7 @@ public abstract class PlayerAbstract : MonoBehaviour, IPlayerParameter, IDamage
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    async UniTask AttackAsync(CancellationToken cancellationToken)
+    private　async UniTask AttackAsync(CancellationToken cancellationToken)
     {
         float time = 0;
         while (true)

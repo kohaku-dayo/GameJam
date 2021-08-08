@@ -67,16 +67,6 @@ public class Enemy : MonoBehaviour, IDamage,IEnemyParameter
                    m_isStop = true;
                })
                .AddTo(this);
-
-        //foreach (var c in m_serchCollider)
-        //{
-        //    c.OnTriggerEnterAsObservable()
-        //        .Where(other => other.gameObject.tag == "Player")
-        //        .Subscribe(other =>
-        //        {
-        //            m_target = other.gameObject;
-        //        });
-        //}
     }
 
     float attackTime;
@@ -87,16 +77,25 @@ public class Enemy : MonoBehaviour, IDamage,IEnemyParameter
         {
             if (m_isStop)
             {
-                Debug.Log("TowerUŒ‚"+this.gameObject.name);
                 StopAndAttack(m_Tower);
                 return;
             }
             m_rigid.velocity = (m_Tower.transform.position - this.transform.position).normalized * m_speed;
+            MoveDirectionRotation(m_rigid.velocity.x);
         }
         else
         {
             StopAndAttack(m_target);
         }
+    }
+
+    private void MoveDirectionRotation(float x)
+    {
+        var rot = transform.rotation;
+
+        rot.z = x > 0 ? 180 : 0;
+
+        transform.rotation = rot;
     }
 
     void StopAndAttack(GameObject target)
@@ -125,7 +124,7 @@ public class Enemy : MonoBehaviour, IDamage,IEnemyParameter
         m_slider.value = m_hp.Value /m_maxHp;
         if (m_hp.Value <= 0) 
         {
-            m_manager.AddCost(m_Cost);
+            //m_manager.AddCost(m_Cost);@//“G‚ªŽ€‚ñ‚¾‚Æ‚«‚ÉƒRƒXƒg‚ð‰Á‚¦‚é‚È‚ç
             Destroy(this.gameObject);
         }
     

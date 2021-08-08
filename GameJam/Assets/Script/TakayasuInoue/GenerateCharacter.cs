@@ -12,9 +12,11 @@ public class GenerateCharacter : MonoBehaviour
     [SerializeField] List<GameObject> m_character;
     [SerializeField] BattleView m_battleView = default;
     [SerializeField] GameObject m_battleManager = default;
-    IManager m_IManager;
-    IObservable<Unit> Generate => this.UpdateAsObservable()
+
+    private IManager m_IManager;
+    private IObservable<Unit> Generate => this.UpdateAsObservable()
         .Where(_ => Input.GetMouseButtonDown(0));
+
     private GameObject m_chara;
 
     // Start is called before the first frame update
@@ -33,26 +35,31 @@ public class GenerateCharacter : MonoBehaviour
     }
 
 
-    void RayInstantiate()
+    private void RayInstantiate()
     {
-        Debug.Log("Ray");
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit = new RaycastHit();
         if (Physics.Raycast(ray, out hit))
         {
-            if(hit.collider.gameObject.tag != "PlayerCollider" && hit.collider.gameObject.tag != "Enemy")
+            //if(hit.collider.gameObject.tag != "PlayerCollider" && hit.collider.gameObject.tag != "Enemy")
+            if(hit.collider.gameObject.tag == "Terrain")
             {
-                if (m_IManager.SumCost <= 0) return;
+                var cost = m_chara.GetComponent<IPlayerParameter>().Cost.Value;
+                if (m_IManager.SumCost - cost <= 0) return;
 
-                Debug.Log(hit.collider.gameObject.tag);
-                var pos = hit.point;
-                pos.y = 0;
-                var chara = Instantiate(m_chara, pos,Quaternion.identity);
-
-                var cost = chara.GetComponent<IPlayerParameter>().Cost.Value;
+                InstantiateChara(hit.point);
                 m_IManager.ReduceCost(cost);
             }            
         }
+    }
+
+    private GameObject InstantiateChara(Vector3 pos)
+    {
+        pos.y = 0;
+        var chara = Instantiate(m_chara, pos, Quaternion.identity);
+        chara.GetComponent<PlayerAbstract>().InitializePlayer(m_IManager);
+
+        return chara;
     }
 
     private void CostRefrect()
