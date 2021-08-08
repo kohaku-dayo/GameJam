@@ -9,6 +9,9 @@ TagManager:
   - daiene
   - Tower
   - Enemy
+  - Terrain
+  - PlayerCollider
+  - DestroyWall
   layers:
   - Default
   - TransparentFX

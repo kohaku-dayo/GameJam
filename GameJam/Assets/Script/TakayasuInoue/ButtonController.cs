@@ -5,6 +5,7 @@ using UniRx;
 using System;
 using UnityEngine.UI;
 using AppConst;
+using DG.Tweening;
 
 public class ButtonController : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class ButtonController : MonoBehaviour
     [SerializeField] AudioSource m_clickSound = default;
     [SerializeField] CharacterId m_characterId;
     [SerializeField] Outline m_outine;
+    [SerializeField] Text m_costText = default;
 
     public IObservable<CharacterId> ButtonClick => m_selectBuuton
         .OnClickAsObservable()
@@ -21,20 +23,35 @@ public class ButtonController : MonoBehaviour
 
     private void Awake()
     {
-        //ButtonClick.Subscribe(_ => m_clickSound.Play());
-        ButtonClick.Subscribe(_ => SelectImage());
+        ButtonClick
+            .SelectMany(Observable.Timer(TimeSpan.FromSeconds(0.01f)))
+            .Subscribe(_ => SelectImage())
+            .AddTo(this);
+
+        ButtonClick.Subscribe(_ =>
+        {
+            transform.DOPunchScale(
+                    punch: Vector3.one * 0.1f,
+                    duration: 0.2f,
+                    vibrato: 1
+                ).SetEase(Ease.OutExpo);
+        })
+        .AddTo(this);
     }
 
     public void SelectImage()
     {
-        //m_buttonImage.color = Color.red;
         m_outine.enabled = true;
     }
 
     public void SelectCancelImage()
     {
-        //m_buttonImage.color = Color.white;
         m_outine.enabled = false;
+    }
+
+    public void SetButtonCostText(float cost)
+    {
+        m_costText.text = $" ÉRÉXÉg{cost.ToString()}";
     }
 
     /// <summary>
@@ -45,4 +62,5 @@ public class ButtonController : MonoBehaviour
     {
         m_buttonImage = image;
     }
+
 }

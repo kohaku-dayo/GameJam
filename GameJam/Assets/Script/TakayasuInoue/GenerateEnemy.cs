@@ -4,45 +4,44 @@ using UnityEngine;
 using UniRx;
 using System;
 using Cysharp.Threading.Tasks;
+using System.Threading;
 
 public class GenerateEnemy : MonoBehaviour
 {
     [SerializeField] GameObject m_enemy;
     [SerializeField] GameObject m_manager;
     [SerializeField] GameObject m_tower;
-    bool isFinish = false;
+
+    CancellationTokenSource m_cancellationToken = new CancellationTokenSource();
+
+    private IManager Imanager;
     // Start is called before the first frame update
     void Start()
     {
-        //m_tower = GameObject.FindGameObjectWithTag("Tower");
-        
-        m_manager.GetComponent<IManager>().GameOver.Subscribe(_=> isFinish = true);
-        LoopInstantiateEnemyAsync().Forget();
+        Imanager = m_manager.GetComponent<IManager>();
+
+        Imanager.GameOver.Subscribe(_=> m_cancellationToken.Cancel());
+        InstantiateEnemyAsync(m_cancellationToken.Token).Forget();
     }
 
-    async UniTask LoopInstantiateEnemyAsync()
-    {
-        while (!isFinish)
-        {
-            await InstantiateEnemyAsync();
-        }
-    }
 
-    async UniTask InstantiateEnemyAsync()
+    async UniTask InstantiateEnemyAsync(CancellationToken cancellation)
     {
-        float time = UnityEngine.Random.Range(1, 30);
-
-        while (time > 0)
+        var time = (float)UnityEngine.Random.Range(1, 30);
+        while(true)
         {
             time -= Time.deltaTime;
-            await UniTask.Yield(PlayerLoopTiming.Update);
-        }
-        var enemy = Instantiate(m_enemy, this.transform.position, Quaternion.AngleAxis(90, Vector3.right));
+            if (time <= 0)
+            {
+                var enemy = Instantiate(m_enemy, this.transform.position, Quaternion.identity);
 
-    }
-    // Update is called once per frame
-    void Update()
-    {
-        
+                enemy.GetComponent<Enemy>().Initialize(m_tower, Imanager);
+
+                Imanager.AddEnemyList(enemy);
+
+                time = UnityEngine.Random.Range(1, 30);
+            }
+            await UniTask.Yield(PlayerLoopTiming.Update,cancellation);
+        }
     }
 }

@@ -5,58 +5,80 @@ using UniRx;
 using UniRx.Triggers;
 using System;
 using AppConst;
+using UnityEngine.EventSystems;
+using Cysharp.Threading.Tasks;
 
 public class GenerateCharacter : MonoBehaviour
 {
     [SerializeField] List<GameObject> m_character;
     [SerializeField] BattleView m_battleView = default;
     [SerializeField] GameObject m_battleManager = default;
-    IManager m_IManager;
-    IObservable<Unit> Generate => this.UpdateAsObservable()
-        .Where(_ => Input.GetMouseButtonDown(0));
-    GameObject m_chara;
+    [SerializeField] GameObject m_effect = default;
 
-    bool m_isbuttonClick = true;
-    float m_sumCost = 20;
-    float m_cost;
+    private IManager m_IManager;
+    private IObservable<Unit> Generate => this.UpdateAsObservable()
+        .Where(_ => Input.GetMouseButtonDown(0));
+
+    private GameObject m_chara;
 
     // Start is called before the first frame update
     void Start()
-    {
+    {     
         m_battleView.EventSelect
-            .Where(_=>m_isbuttonClick)
             .Subscribe(id => InstatiateCharacter(id));
+
         Generate
-            .Where(_=> !m_isbuttonClick)
+            .Where(_=> EventSystem.current.currentSelectedGameObject == null)
             .Subscribe(_ => RayInstantiate());
-        m_battleView.RefrectCost(m_sumCost);
 
         m_IManager = m_battleManager.GetComponent<IManager>();
+
+        CostRefrect();
     }
 
 
-    void RayInstantiate()
+    private void RayInstantiate()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit = new RaycastHit();
         if (Physics.Raycast(ray, out hit))
         {
-            if (
-               m_IManager.SumCost < m_chara.GetComponent<IPlayerProp>().Cost)
+            if(hit.collider.gameObject.tag == "Terrain")
             {
-                m_battleView.SelectCancel();
-                m_isbuttonClick = true;
-                return;
-            }
-            var chara = Instantiate(m_chara, hit.point, Quaternion.AngleAxis(90, Vector3.right));
-            var cost = chara.GetComponent<CasterPlayer>().Cost;
-            //m_IManager.ReduceCost(cost);
-            GameObject.Find("BattleManager").GetComponent<BattleManager>().ReduceCost(cost);
-            
+                var cost = m_chara.GetComponent<IPlayerParameter>().Cost.Value;
+                var sumCost = m_IManager.SumCost;
+                var upadateCost = sumCost - cost;
+                if (upadateCost <= 0) return;
+
+                InstantiateChara(hit.point).Forget();
+                m_IManager.ReduceCost(cost);
+            }            
         }
-        m_battleView.SelectCancel();
-        m_isbuttonClick = true;
     }
+
+    private async UniTask<GameObject> InstantiateChara(Vector3 pos)
+    {
+        pos.y = 0;
+        Instantiate(m_effect, pos, Quaternion.identity);
+
+        await UniTask.Delay(TimeSpan.FromSeconds(0.5f));
+
+        var chara = Instantiate(m_chara, pos, Quaternion.identity);
+        chara.GetComponent<PlayerAbstract>().InitializePlayer(m_IManager);
+
+        return chara;
+    }
+
+    private void CostRefrect()
+    {
+        List<float> cost = new List<float>();
+        foreach(var c in m_character)
+        {
+            cost.Add(c.GetComponent<IPlayerParameter>().Cost.Value);
+        }
+        m_battleView.RefrectButtonCost(cost);
+    }
+
 
     void InstatiateCharacter(CharacterId id)
     {
@@ -64,29 +86,26 @@ public class GenerateCharacter : MonoBehaviour
         {
             case CharacterId.sord:
                 m_chara = m_character[0];
-                m_cost = 5;
+
                 break;
             case CharacterId.arrow:
                 m_chara = m_character[1];
-                m_cost = 5;
 
                 break;
             case CharacterId.magic:
                 m_chara = m_character[2];
-                m_cost = 5;
-
+   
                 break;
             case CharacterId.kabe:
                 m_chara = m_character[3];
-                m_cost = 5;
 
                 break;
         }
-        m_isbuttonClick = false;
+   
     }
 
     /// <summary>
-    /// コードでprefabの参照を渡す
+    /// コードでprefabの参照を渡す用
     /// </summary>
     /// <param name="character"></param>
     public void SetCharacterInstance(List<GameObject> character)
