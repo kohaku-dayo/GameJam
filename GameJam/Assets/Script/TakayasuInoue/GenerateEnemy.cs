@@ -39,7 +39,7 @@ public class GenerateEnemy : MonoBehaviour
 
                 Imanager.AddEnemyList(enemy);
 
-                time = UnityEngine.Random.Range(1, 60);
+                time = UnityEngine.Random.Range(1, 30);
             }
             await UniTask.Yield(PlayerLoopTiming.Update,cancellation);
         }

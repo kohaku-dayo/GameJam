@@ -6,12 +6,14 @@ using UniRx.Triggers;
 using System;
 using AppConst;
 using UnityEngine.EventSystems;
+using Cysharp.Threading.Tasks;
 
 public class GenerateCharacter : MonoBehaviour
 {
     [SerializeField] List<GameObject> m_character;
     [SerializeField] BattleView m_battleView = default;
     [SerializeField] GameObject m_battleManager = default;
+    [SerializeField] GameObject m_effect = default;
 
     private IManager m_IManager;
     private IObservable<Unit> Generate => this.UpdateAsObservable()
@@ -41,21 +43,26 @@ public class GenerateCharacter : MonoBehaviour
         RaycastHit hit = new RaycastHit();
         if (Physics.Raycast(ray, out hit))
         {
-            //if(hit.collider.gameObject.tag != "PlayerCollider" && hit.collider.gameObject.tag != "Enemy")
             if(hit.collider.gameObject.tag == "Terrain")
             {
                 var cost = m_chara.GetComponent<IPlayerParameter>().Cost.Value;
-                if (m_IManager.SumCost - cost <= 0) return;
+                var sumCost = m_IManager.SumCost;
+                var upadateCost = sumCost - cost;
+                if (upadateCost <= 0) return;
 
-                InstantiateChara(hit.point);
+                InstantiateChara(hit.point).Forget();
                 m_IManager.ReduceCost(cost);
             }            
         }
     }
 
-    private GameObject InstantiateChara(Vector3 pos)
+    private async UniTask<GameObject> InstantiateChara(Vector3 pos)
     {
         pos.y = 0;
+        Instantiate(m_effect, pos, Quaternion.identity);
+
+        await UniTask.Delay(TimeSpan.FromSeconds(0.5f));
+
         var chara = Instantiate(m_chara, pos, Quaternion.identity);
         chara.GetComponent<PlayerAbstract>().InitializePlayer(m_IManager);
 

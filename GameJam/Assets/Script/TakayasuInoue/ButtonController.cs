@@ -5,6 +5,7 @@ using UniRx;
 using System;
 using UnityEngine.UI;
 using AppConst;
+using DG.Tweening;
 
 public class ButtonController : MonoBehaviour
 {
@@ -22,11 +23,20 @@ public class ButtonController : MonoBehaviour
 
     private void Awake()
     {
-        //ButtonClick.Subscribe(_ => m_clickSound.Play());
         ButtonClick
-            .SelectMany(Observable.Timer(TimeSpan.FromSeconds(0.1f)))
-            .Subscribe(_ => SelectImage());
+            .SelectMany(Observable.Timer(TimeSpan.FromSeconds(0.01f)))
+            .Subscribe(_ => SelectImage())
+            .AddTo(this);
 
+        ButtonClick.Subscribe(_ =>
+        {
+            transform.DOPunchScale(
+                    punch: Vector3.one * 0.1f,
+                    duration: 0.2f,
+                    vibrato: 1
+                ).SetEase(Ease.OutExpo);
+        })
+        .AddTo(this);
     }
 
     public void SelectImage()

@@ -21,7 +21,6 @@ public class Enemy : MonoBehaviour, IDamage,IEnemyParameter
     [SerializeField] Collider m_mineCollider;
     [SerializeField] Slider m_slider;
     [SerializeField] GameObject effect;
-    [SerializeField] int m_Cost;
     [SerializeField] Animator m_anim;
     private GameObject m_target;
     private GameObject m_Tower;

@@ -449,11 +449,11 @@ MonoBehaviour:
   m_anim: {fileID: 7908412908603283000}
   m_intarval: 3
   m_hp:
-    value: 10
+    value: 4
   m_cost:
     value: 1
   m_attack:
-    value: 2
+    value: 1
 --- !u!1 &4859237693322315981
 GameObject:
   m_ObjectHideFlags: 0

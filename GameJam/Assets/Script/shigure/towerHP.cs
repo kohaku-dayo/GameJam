@@ -25,28 +25,7 @@ public class towerHP : MonoBehaviour,IDamage
     {
         slider.value = 100;
         crenntHP = maxHp;
-       
-        Debug.Log("Start crenntHP:" + crenntHP);
-        
     }
-   
-    //private void OnTriggerEnter(Collider collider)
-    //{
-    //    Debug.Log("kk");
-    //    if (collider.gameObject.tag == "Enemy") 
-    //    {
-    //        crenntHP -= collider.gameObject.GetComponent<IEnemyParameter>().Attack.Value;
-    //        slider.value = crenntHP;
-    //        //Instantiate(m_effect, this.transform.position, Quaternion.identity);
-    //        Effect().Forget();
-    //        Destroy(collider.gameObject);
-    //        if(crenntHP <= 0)
-    //        {
-    //            GameObject.Find("BattleManager").GetComponent<BattleManager>().GameOverExcute();
-    //            Destroy(this.gameObject);
-    //        }
-    //    }   
-    //}
 
     public void Damage(float attack)
     {

@@ -39,10 +39,6 @@ public class BattleManager : MonoBehaviour,IManager
         m_maxCost = sumCost;
     }
 
-    private void Update()
-    {
-        //sumCost += Time.deltaTime;
-    }
     public void AddCost(float cost)
     {
         sumCost += cost;
@@ -83,7 +79,7 @@ public class BattleManager : MonoBehaviour,IManager
         {
             m_totalTime += Time.deltaTime;
             var time = (float)Math.Floor((m_totalTime * 10) / 10);
-            AddCost(0.3f * Time.deltaTime);
+            AddCost(0.6f * Time.deltaTime);
             m_battleView.RefrectTime(time);
             await UniTask.Yield(PlayerLoopTiming.Update, cancellation);
         }

@@ -44,6 +44,7 @@ public abstract class PlayerAbstract : MonoBehaviour, IPlayerParameter, IDamage
     {
         m_manager = manager;
         m_maxHp = m_hp.Value;
+        m_manager.GameOver.Subscribe(_ => Destroy(this.gameObject)).AddTo(this);
         SetTarget(m_manager.EnemyList);
         AttackAsync(this.GetCancellationTokenOnDestroy()).Forget();
     }
@@ -55,8 +56,8 @@ public abstract class PlayerAbstract : MonoBehaviour, IPlayerParameter, IDamage
     protected void SetTarget(List<GameObject> target)
     {
         //ターゲットが一人もいなかったらリターン
-        if (target[0] == null) return;
-        
+        if (target.Count == 0) return;
+        Debug.Log("Set");
         //ターゲット初期設定
         float nearDistance = Vector3.Distance(this.transform.position, target[0].transform.position);
         m_target = target[0];

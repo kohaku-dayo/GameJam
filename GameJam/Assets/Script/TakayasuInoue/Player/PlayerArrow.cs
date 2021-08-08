@@ -5,7 +5,9 @@ using Cysharp.Threading.Tasks;
 using System;
 using System.Threading;
 
-
+/// <summary>
+/// キャスターと特に振る舞いが変わらないのでキャスターにもアタッチ
+/// </summary>
 public class PlayerArrow : PlayerAbstract
 {
     [SerializeField] GameObject m_bullet;
