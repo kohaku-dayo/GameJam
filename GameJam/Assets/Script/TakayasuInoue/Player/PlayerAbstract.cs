@@ -26,6 +26,7 @@ public abstract class PlayerAbstract : MonoBehaviour, IPlayerParameter, IDamage
     [SerializeField] protected ReactiveProperty<float> m_attack = new ReactiveProperty<float>();
 
     protected GameObject m_target;
+    protected AudioManager m_audioManager;
     [SerializeField] Collider m_seerchCollider = default;
     [SerializeField] protected Animator m_anim = default;
     [SerializeField] Slider m_slider = default;
@@ -46,6 +47,7 @@ public abstract class PlayerAbstract : MonoBehaviour, IPlayerParameter, IDamage
         m_maxHp = m_hp.Value;
         m_manager.GameOver.Subscribe(_ => Destroy(this.gameObject)).AddTo(this);
         SetTarget(m_manager.EnemyList);
+        m_audioManager = FindObjectOfType<AudioManager>();
         AttackAsync(this.GetCancellationTokenOnDestroy()).Forget();
     }
 

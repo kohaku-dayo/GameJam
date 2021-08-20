@@ -4,6 +4,8 @@ using UnityEngine;
 using Cysharp.Threading.Tasks;
 using System;
 using System.Threading;
+using AppConst;
+using UniRx;
 
 /// <summary>
 /// キャスターと特に振る舞いが変わらないのでキャスターにもアタッチ
@@ -11,10 +13,39 @@ using System.Threading;
 public class PlayerArrow : PlayerAbstract
 {
     [SerializeField] GameObject m_bullet;
+    [SerializeField] CharacterId m_characterId = default;
+
+    public override void InitializePlayer(IManager manager)
+    {
+        base.InitializePlayer(manager);
+        if (m_characterId == CharacterId.arrow)
+        {
+            m_hp
+           .SkipLatestValueOnSubscribe()
+           .Where(hp => hp <= 0)
+           .Subscribe(_ => m_audioManager.PlaySE(3));
+        }
+        else if (m_characterId == CharacterId.magic)
+        {
+            m_hp
+           .SkipLatestValueOnSubscribe()
+           .Where(hp => hp <= 0)
+           .Subscribe(_ => m_audioManager.PlaySE(4));
+        }
+    }
+
     protected override void AttackIntervalExcute()
     {
         if (m_target == null) return;
         m_anim.SetBool("Attack", true);
+        if(m_characterId == CharacterId.arrow)
+        {
+            m_audioManager.PlaySE(0);
+        }
+        else if(m_characterId == CharacterId.magic)
+        {
+            m_audioManager.PlaySE(1);
+        }
         InstantiateBullet(this.GetCancellationTokenOnDestroy()).Forget();
     }
 

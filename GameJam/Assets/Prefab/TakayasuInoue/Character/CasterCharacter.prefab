@@ -531,6 +531,7 @@ MonoBehaviour:
   m_anim: {fileID: 2637719557438624306}
   m_slider: {fileID: 5838000511455753253}
   m_bullet: {fileID: 8723790395406638522, guid: bc8e77af334764f4c9a60374d21e62e3, type: 3}
+  m_characterId: 2
 --- !u!1 &5716575754738072729
 GameObject:
   m_ObjectHideFlags: 0
