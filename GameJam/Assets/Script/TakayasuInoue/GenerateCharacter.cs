@@ -62,7 +62,7 @@ public class GenerateCharacter : MonoBehaviour
         Instantiate(m_effect, pos, Quaternion.identity);
 
         await UniTask.Delay(TimeSpan.FromSeconds(0.5f));
-
+        
         var chara = Instantiate(m_chara, pos, Quaternion.identity);
         chara.GetComponent<PlayerAbstract>().InitializePlayer(m_IManager);
 

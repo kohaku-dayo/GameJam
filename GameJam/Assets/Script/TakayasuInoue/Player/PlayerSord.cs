@@ -19,6 +19,13 @@ public class PlayerSord : PlayerAbstract
     {
         base.InitializePlayer(manager);
 
+        m_audioManager.PlaySE(6);
+
+        m_hp
+        .SkipLatestValueOnSubscribe()
+        .Where(hp => hp <= 0)
+        .Subscribe(_ => m_audioManager.PlaySE(8));
+
         m_characterCollider.OnTriggerEnterAsObservable()
             .Where(other => other.gameObject.tag == "Enemy")
             .Subscribe(_ => m_isStop = true)
@@ -29,6 +36,7 @@ public class PlayerSord : PlayerAbstract
     {
         if (m_isStop && m_target != null)
         {
+            m_audioManager.PlaySE(7);
             m_anim.SetBool("Attack", true);
             DelayAttack(this.GetCancellationTokenOnDestroy()).Forget();
         }
@@ -41,9 +49,11 @@ public class PlayerSord : PlayerAbstract
             if (m_isStop)
             {
                 m_rigidbody.velocity = Vector3.zero;
+                m_anim.SetBool("Walk", false);
             }
             else
             {
+                m_anim.SetBool("Walk", true);
                 m_rigidbody.velocity = (m_target.transform.position - transform.position).normalized * m_speed;
             }
         }

@@ -79,6 +79,7 @@ public class Enemy : MonoBehaviour, IDamage,IEnemyParameter
                 StopAndAttack(m_Tower);
                 return;
             }
+            m_anim.SetBool("Attack", false);
             m_rigid.velocity = (m_Tower.transform.position - this.transform.position).normalized * m_speed;
             MoveDirectionRotation(m_rigid.velocity.x);
         }
@@ -105,6 +106,7 @@ public class Enemy : MonoBehaviour, IDamage,IEnemyParameter
 
         if (attackTime > m_intarval)
         {
+            m_anim.SetBool("Attack", true);
             target.GetComponent<IDamage>().Damage(m_attack.Value);
             attackTime = 0;
         }

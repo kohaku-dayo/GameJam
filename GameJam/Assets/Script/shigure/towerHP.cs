@@ -17,7 +17,7 @@ public class towerHP : MonoBehaviour,IDamage
 
     [SerializeField] GameObject m_effect = default;
 
-
+    private AudioManager m_audioManager;
     public Slider slider;
 
     // Start is called before the first frame update
@@ -25,12 +25,20 @@ public class towerHP : MonoBehaviour,IDamage
     {
         slider.value = 100;
         crenntHP = maxHp;
+        m_audioManager = FindObjectOfType<AudioManager>();
     }
-
+    bool delay = false;
     public void Damage(float attack)
     {
         crenntHP -= attack;
         slider.value = crenntHP;
+        m_audioManager.PlaySE(12);
+
+        if (!delay)
+        {
+            DelaySound().Forget();
+            delay = true;
+        }
 
         Effect().Forget();
 
@@ -39,6 +47,13 @@ public class towerHP : MonoBehaviour,IDamage
             GameObject.Find("BattleManager").GetComponent<BattleManager>().GameOverExcute();
             Destroy(this.gameObject);
         }
+    }
+
+    async UniTask DelaySound()
+    {
+        m_audioManager.PlaySE(12);
+        await UniTask.Delay(TimeSpan.FromSeconds(5));
+        delay = false;
     }
 
     async UniTask Effect()

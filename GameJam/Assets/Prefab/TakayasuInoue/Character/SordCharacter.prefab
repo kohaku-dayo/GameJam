@@ -526,7 +526,7 @@ MonoBehaviour:
   m_cost:
     value: 2
   m_attack:
-    value: 2
+    value: 1
   m_seerchCollider: {fileID: 3799190044342045242}
   m_anim: {fileID: 2584720158377638562}
   m_slider: {fileID: 5838000511455753253}

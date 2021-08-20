@@ -18,19 +18,29 @@ public class PlayerArrow : PlayerAbstract
     public override void InitializePlayer(IManager manager)
     {
         base.InitializePlayer(manager);
+
+        if (m_characterId == CharacterId.arrow)
+        {
+            m_audioManager.PlaySE(0);
+        }
+        else if (m_characterId == CharacterId.magic)
+        {
+            m_audioManager.PlaySE(3);
+        }
+
         if (m_characterId == CharacterId.arrow)
         {
             m_hp
            .SkipLatestValueOnSubscribe()
            .Where(hp => hp <= 0)
-           .Subscribe(_ => m_audioManager.PlaySE(3));
+           .Subscribe(_ => m_audioManager.PlaySE(2));
         }
         else if (m_characterId == CharacterId.magic)
         {
             m_hp
            .SkipLatestValueOnSubscribe()
            .Where(hp => hp <= 0)
-           .Subscribe(_ => m_audioManager.PlaySE(4));
+           .Subscribe(_ => m_audioManager.PlaySE(5));
         }
     }
 
@@ -40,11 +50,11 @@ public class PlayerArrow : PlayerAbstract
         m_anim.SetBool("Attack", true);
         if(m_characterId == CharacterId.arrow)
         {
-            m_audioManager.PlaySE(0);
+            m_audioManager.PlaySE(1);
         }
         else if(m_characterId == CharacterId.magic)
         {
-            m_audioManager.PlaySE(1);
+            m_audioManager.PlaySE(4);
         }
         InstantiateBullet(this.GetCancellationTokenOnDestroy()).Forget();
     }
