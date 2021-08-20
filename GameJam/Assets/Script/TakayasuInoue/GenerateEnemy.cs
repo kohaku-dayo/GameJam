@@ -29,12 +29,15 @@ public class GenerateEnemy : MonoBehaviour
 
     async UniTask InstantiateEnemyAsync(CancellationToken cancellation)
     {
-        var time = (float)UnityEngine.Random.Range(1, 30);
+        var time = (float)UnityEngine.Random.Range(1, 20);
         var redTime = (float)UnityEngine.Random.Range(1, 100);
         var blueTime = (float)UnityEngine.Random.Range(1, 200);
+        var totalTime = 0f;
    
         while(true)
         {
+            totalTime += Time.deltaTime;
+            
             time -= Time.deltaTime;
             if (time <= 0)
             {
@@ -44,13 +47,15 @@ public class GenerateEnemy : MonoBehaviour
 
                 Imanager.AddEnemyList(enemy);
 
-                time = UnityEngine.Random.Range(1, 30);
+                time = UnityEngine.Random.Range(1, 20);
             }
 
             redTime -= Time.deltaTime;
             if (redTime <= 0)
             {
-                var enemy = Instantiate(m_enemy, this.transform.position, Quaternion.identity);
+                var pos = this.transform.position;
+                pos.x += 1;
+                var enemy = Instantiate(m_blueEnemy, pos, Quaternion.identity);
 
                 enemy.GetComponent<Enemy>().Initialize(m_tower, Imanager);
 
@@ -64,7 +69,9 @@ public class GenerateEnemy : MonoBehaviour
             blueTime -= Time.deltaTime;
             if (blueTime <= 0)
             {
-                var enemy = Instantiate(m_enemy, this.transform.position, Quaternion.identity);
+                var pos = this.transform.position;
+                pos.x -= 1;
+                var enemy = Instantiate(m_redEnemy, pos, Quaternion.identity);
 
                 enemy.GetComponent<Enemy>().Initialize(m_tower, Imanager);
 

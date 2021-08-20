@@ -8,7 +8,7 @@ using Cysharp.Threading.Tasks;
 
 public class towerHP : MonoBehaviour,IDamage
 {
-    int maxHp = 100;
+    int maxHp = 50;
     float crenntHP;
     
     int Zakoenemy = 5;
@@ -23,7 +23,7 @@ public class towerHP : MonoBehaviour,IDamage
     // Start is called before the first frame update
     void Start()
     {
-        slider.value = 100;
+        slider.value = 50;
         crenntHP = maxHp;
         m_audioManager = FindObjectOfType<AudioManager>();
     }
@@ -32,7 +32,6 @@ public class towerHP : MonoBehaviour,IDamage
     {
         crenntHP -= attack;
         slider.value = crenntHP;
-        m_audioManager.PlaySE(12);
 
         if (!delay)
         {

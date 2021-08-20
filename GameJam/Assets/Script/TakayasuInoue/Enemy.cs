@@ -68,7 +68,7 @@ public class Enemy : MonoBehaviour, IDamage,IEnemyParameter
                .AddTo(this);
     }
 
-    float attackTime;
+    float attackTime=3;
    
     private void Update()
     {

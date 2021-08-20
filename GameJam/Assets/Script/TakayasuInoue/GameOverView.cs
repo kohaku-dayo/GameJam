@@ -21,7 +21,7 @@ public class GameOverView : MonoBehaviour
             .Subscribe(time =>
             {
                 var times = (float)Math.Floor((time * 10) / 10);
-                m_totalTimeText.text = $"{times.ToString()}¶‚«c‚Á‚½";
+                m_totalTimeText.text = $"{times.ToString()}•b¶‚«c‚Á‚½";
                 m_resultPanel.SetActive(true);
             });
 

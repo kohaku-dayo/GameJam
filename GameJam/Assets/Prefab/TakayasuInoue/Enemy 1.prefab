@@ -452,7 +452,7 @@ MonoBehaviour:
   m_cost:
     value: 1
   m_attack:
-    value: 1
+    value: 2
 --- !u!1 &4859237693322315981
 GameObject:
   m_ObjectHideFlags: 0

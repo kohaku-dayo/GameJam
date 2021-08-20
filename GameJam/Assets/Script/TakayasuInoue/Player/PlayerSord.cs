@@ -67,7 +67,10 @@ public class PlayerSord : PlayerAbstract
     private async UniTask DelayAttack(CancellationToken cancellationToken)
     {
         await UniTask.Delay(TimeSpan.FromSeconds(0.5f),false,PlayerLoopTiming.Update, cancellationToken);
-        m_target?.GetComponent<IDamage>()?.Damage(m_attack.Value);
-        m_anim?.SetBool("Attack", false);
+        if(m_target != null)
+        {
+            m_target.GetComponent<IDamage>().Damage(m_attack.Value);
+            m_anim?.SetBool("Attack", false);
+        }
     }
 }

@@ -26,7 +26,7 @@ public class title : MonoBehaviour
     }
     void Fader()
     {
-        span += 0.5f;
+        span += 100f *Time.deltaTime;
         img.color = new Color(0, 0, 0, span / 255);
         if (span > 255) LoadScene();
     }
